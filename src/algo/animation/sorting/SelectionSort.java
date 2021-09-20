@@ -2,6 +2,7 @@ package algo.animation.sorting;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Collections;
 
 public class SelectionSort extends Sort {
     int pointer;
@@ -57,7 +58,7 @@ public class SelectionSort extends Sort {
             selected = -1;
             pointer = -1;
             --stop;
-            if (stop <= 1)
+            if (stop <= 0)
                 sorted = true;
         }
         pointer++;
