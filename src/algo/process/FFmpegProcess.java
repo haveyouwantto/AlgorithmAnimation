@@ -24,17 +24,17 @@ public class FFmpegProcess {
         this("ffmpeg", params);
     }
 
-    public void writeFrame(BufferedImage frameBuffer) throws IOException {
+    public void writeFrame(BufferedImage frame) throws IOException {
         if (ffmpeg == null) {
-            width = frameBuffer.getWidth();
-            height = frameBuffer.getHeight();
+            width = frame.getWidth();
+            height = frame.getHeight();
 
             ffmpeg = Subprocess.call(String.format("\"%s\" -r 30 -pix_fmt rgb24 -f rawvideo -s %dx%d -i - %s", path, width, height, params), true);
             pipe = ffmpeg.getOutputStream();
 
             // stdout重定向
             Runnable r = () -> {
-                String line = "";
+                String line;
                 BufferedReader br = new BufferedReader(new InputStreamReader(ffmpeg.getInputStream()));
                 while (true) {
                     try {
@@ -49,6 +49,6 @@ public class FFmpegProcess {
             t.setDaemon(true);
             t.start();
         }
-        pipe.write(Etc.toByteArray(frameBuffer));
+        pipe.write(Etc.toByteArray(frame));
     }
 }

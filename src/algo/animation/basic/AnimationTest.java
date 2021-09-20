@@ -24,7 +24,7 @@ public class AnimationTest implements AnimationGen {
         int i2 = (int) ((Math.sin(Math.toRadians(i)) + 1) * 180);
         i++;
         graphics.drawOval(10, 10, i2, i2);
-        String str = String.format("frame=%3d  radius=%3d", i, i2);
+        String str = String.format("frame=%3d  diameter=%3d", i, i2);
         graphics.drawChars(str.toCharArray(), 0, str.length(), 100, 100);
         return bim;
     }
