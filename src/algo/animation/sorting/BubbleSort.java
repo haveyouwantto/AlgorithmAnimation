@@ -16,6 +16,9 @@ public class BubbleSort extends Sort {
 
     int tick = 0;
 
+    public BubbleSort(int mul) {
+        super(mul);
+    }
 
 
     void step() {
@@ -32,6 +35,7 @@ public class BubbleSort extends Sort {
             if (stop <= 1) sorted = true;
         }
     }
+
     @Override
     public BufferedImage provideFrame() {
         graphics.setColor(Color.BLACK);
@@ -41,7 +45,7 @@ public class BubbleSort extends Sort {
             return bim;
         }
         for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * 6;
+            int val = array.get(i) * 6 / mul;
             if (i == pointer) {
                 graphics.setColor(Color.RED);
             } else if (i == pointer + 1) {
@@ -51,7 +55,7 @@ public class BubbleSort extends Sort {
             } else {
                 graphics.setColor(Color.WHITE);
             }
-            graphics.fillRect(i * 8, bim.getHeight() - val, 6, val);
+            graphics.fillRect(i * 8 / mul, bim.getHeight() - val, 6 / mul, val);
         }
         graphics.setColor(Color.WHITE);
         String info = String.format("Bubble Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);

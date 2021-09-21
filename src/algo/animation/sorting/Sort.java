@@ -9,13 +9,16 @@ import java.util.Collections;
 
 public abstract class Sort implements AnimationGen {
     StatsArrayList<Integer> array = new StatsArrayList<>();
-    int elements = 80;
+    int elements;
+    int mul;
     BufferedImage bim = new BufferedImage(640, 480, BufferedImage.TYPE_INT_RGB);
     Graphics graphics = bim.getGraphics();
     boolean sorted;
     boolean finished;
 
-    public Sort() {
+    public Sort(int mul) {
+        this.mul = mul;
+        elements = 80 * mul;
         for (int i = 0; i < elements; i++) {
             array.add(i + 1);
         }
@@ -32,16 +35,13 @@ public abstract class Sort implements AnimationGen {
     void finish() {
         graphics.setColor(Color.GREEN);
         for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * 6;
+            int val = array.get(i) * 6 / mul;
             if (i == finish) {
                 graphics.setColor(Color.WHITE);
             }
-            graphics.fillRect(i * 8, bim.getHeight() - val, 6, val);
+            graphics.fillRect(i * 8 / mul, bim.getHeight() - val, 6 / mul, val);
         }
         finish++;
         if (finish == array.size()) finished = true;
     }
-
-    abstract void step();
-
 }

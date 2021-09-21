@@ -13,6 +13,10 @@ public class SelectionSort extends Sort {
     int compare = 0;
     int tick = 0;
 
+    public SelectionSort(int mul) {
+        super(mul);
+    }
+
     public BufferedImage provideFrame() {
         graphics.setColor(Color.BLACK);
         graphics.fillRect(0, 0, bim.getWidth(), bim.getHeight());
@@ -21,7 +25,7 @@ public class SelectionSort extends Sort {
             return bim;
         }
         for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * 6;
+            int val = array.get(i) * 6 / mul;
             if (i == pointer) {
                 graphics.setColor(Color.RED);
             } else if (i == selected) {
@@ -31,7 +35,7 @@ public class SelectionSort extends Sort {
             } else {
                 graphics.setColor(Color.WHITE);
             }
-            graphics.fillRect(i * 8, bim.getHeight() - val, 6, val);
+            graphics.fillRect(i * 8 / mul, bim.getHeight() - val, 6 / mul, val);
         }
         graphics.setColor(Color.WHITE);
         String info = String.format("Selection Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
@@ -43,7 +47,6 @@ public class SelectionSort extends Sort {
         return bim;
     }
 
-    @Override
     void step() {
         int value = array.statsGet(pointer);
         compare++;

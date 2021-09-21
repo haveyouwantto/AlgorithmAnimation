@@ -8,12 +8,18 @@ public class StatsArrayList<E> extends ArrayList<E> {
 
     public E statsGet(int index) {
         gets++;
-        return super.get(index);
+        return get(index);
     }
 
     public E statsSet(int index, E element) {
         sets++;
-        return super.set(index, element);
+        return set(index, element);
+    }
+
+    public void statsSwap(int i1, int i2) {
+        E temp = statsGet(i1);
+        statsSet(i1, statsGet(i2));
+        statsSet(i2, temp);
     }
 
     public int getGets() {
