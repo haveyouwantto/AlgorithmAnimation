@@ -113,6 +113,7 @@ public class QuickSort extends Sort {
             // recursive sort 2 sub-lists
             sort(start, pivot - 1);
             sort(pivot + 1, end);
+            lock.wait();
         }
     }
 
@@ -126,7 +127,7 @@ public class QuickSort extends Sort {
             return bim;
         }
         for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * 6 / mul;
+            int val = array.get(i) * valCons;
 
             if (pointers.contains(i)) {
                 graphics.setColor(Color.RED);
@@ -140,7 +141,7 @@ public class QuickSort extends Sort {
                 graphics.setColor(Color.WHITE);
             }
 
-            graphics.fillRect(i * 8 / mul, bim.getHeight() - val, 6 / mul, val);
+            graphics.fillRect(i * xCons, bim.getHeight() - val, valCons, val);
         }
         graphics.setColor(Color.WHITE);
         String info = String.format("Quick Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
@@ -164,5 +165,13 @@ public class QuickSort extends Sort {
         }
         tick++;
         return bim;
+    }
+
+    @Override
+    void finish() {
+        super.finish();
+
+        String info = String.format("Quick Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
+        graphics.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
     }
 }

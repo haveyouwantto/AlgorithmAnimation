@@ -45,7 +45,7 @@ public class BubbleSort extends Sort {
             return bim;
         }
         for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * 6 / mul;
+            int val = array.get(i) * valCons;
             if (i == pointer) {
                 graphics.setColor(Color.RED);
             } else if (i == pointer + 1) {
@@ -55,7 +55,7 @@ public class BubbleSort extends Sort {
             } else {
                 graphics.setColor(Color.WHITE);
             }
-            graphics.fillRect(i * 8 / mul, bim.getHeight() - val, 6 / mul, val);
+            graphics.fillRect(i * xCons, bim.getHeight() - val, valCons, val);
         }
         graphics.setColor(Color.WHITE);
         String info = String.format("Bubble Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
@@ -65,5 +65,13 @@ public class BubbleSort extends Sort {
         }
         tick++;
         return bim;
+    }
+
+    @Override
+    void finish() {
+        super.finish();
+
+        String info = String.format("Bubble Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
+        graphics.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
     }
 }

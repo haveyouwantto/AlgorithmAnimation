@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class CreateAnimation {
     public static void create(String params, AnimationGen gen, File file) throws IOException {
-        FFmpegProcess ffmpeg = new FFmpegProcess(params+" -y "+file.toString());
+        FFmpegProcess ffmpeg = new FFmpegProcess(params + " -y " + file.toString());
         while (gen.hasNext()) {
             ffmpeg.writeFrame(gen.provideFrame());
         }
@@ -50,9 +50,20 @@ public class CreateAnimation {
         create("-c:v h264_qsv -pix_fmt yuv420p -qp 16", gen, file);
     }
 
+    public static void qsv265(AnimationGen gen, File file) throws IOException {
+        create("-c:v hevc_qsv -pix_fmt yuv420p -qp 16", gen, file);
+    }
+
+    public static void qsvp9(AnimationGen gen, File file) throws IOException {
+        create("-c:v vp9_qsv -pix_fmt yuv420p -qp 16", gen, file);
+    }
+
     public static void amf(AnimationGen gen, File file) throws IOException {
         create("-c:v h264_amf -pix_fmt yuv420p -qp 16", gen, file);
     }
 
+    public static void amf265(AnimationGen gen, File file) throws IOException {
+        create("-c:v hevc_amf -pix_fmt yuv420p -qp 16", gen, file);
+    }
 
 }
