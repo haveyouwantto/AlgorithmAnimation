@@ -40,7 +40,7 @@ public abstract class Sort implements AnimationGen {
     void finish() {
         graphics.setColor(Color.GREEN);
         for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * 3 * mul;
+            int val = array.get(i) * valCons;
             if (i == finish) {
                 graphics.setColor(Color.WHITE);
             }

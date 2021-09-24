@@ -46,10 +46,8 @@ public class BubbleSort extends Sort {
         }
         for (int i = 0; i < array.size(); i++) {
             int val = array.get(i) * valCons;
-            if (i == pointer) {
+            if (i == pointer || i == pointer + 1) {
                 graphics.setColor(Color.RED);
-            } else if (i == pointer + 1) {
-                graphics.setColor(Color.GREEN);
             } else if (i == stop) {
                 graphics.setColor(Color.YELLOW);
             } else {
