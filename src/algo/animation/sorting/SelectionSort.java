@@ -1,8 +1,6 @@
 package algo.animation.sorting;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.Collections;
 
 public class SelectionSort extends Sort {
     int pointer;
@@ -17,34 +15,32 @@ public class SelectionSort extends Sort {
         super(mul);
     }
 
-    public BufferedImage provideFrame() {
-        graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0, bim.getWidth(), bim.getHeight());
+    public void provideFrame(Graphics g) {
+        super.provideFrame(g);
         if (sorted) {
-            finish();
-            return bim;
+            finish(g);
+            return;
         }
         for (int i = 0; i < array.size(); i++) {
             int val = array.get(i) * valCons;
             if (i == pointer) {
-                graphics.setColor(Color.RED);
+                g.setColor(Color.RED);
             } else if (i == selected) {
-                graphics.setColor(Color.GREEN);
+                g.setColor(Color.GREEN);
             } else if (i == stop) {
-                graphics.setColor(Color.YELLOW);
+                g.setColor(Color.YELLOW);
             } else {
-                graphics.setColor(Color.WHITE);
+                g.setColor(Color.WHITE);
             }
-            graphics.fillRect(i * xCons, bim.getHeight() - val, valCons, val);
+            g.fillRect(i * xCons, height - val, valCons, val);
         }
-        graphics.setColor(Color.WHITE);
+        g.setColor(Color.WHITE);
         String info = String.format("Selection Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
-        graphics.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
         if (tick > 60) {
             step();
         }
         tick++;
-        return bim;
     }
 
     void step() {
@@ -68,10 +64,10 @@ public class SelectionSort extends Sort {
     }
 
     @Override
-    void finish() {
-        super.finish();
+    void finish(Graphics g) {
+        super.finish(g);
 
         String info = String.format("Selection Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
-        graphics.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
     }
 }

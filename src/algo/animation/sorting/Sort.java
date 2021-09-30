@@ -1,10 +1,10 @@
 package algo.animation.sorting;
 
 import algo.animation.AnimationGen;
+import algo.datatype.VideoSize;
 import algo.datatype.StatsArrayList;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.Collections;
 
 public abstract class Sort implements AnimationGen {
@@ -13,10 +13,11 @@ public abstract class Sort implements AnimationGen {
     int mul;
     int valCons;
     int xCons;
-    BufferedImage bim = new BufferedImage(640, 480, BufferedImage.TYPE_INT_RGB);
-    Graphics graphics = bim.getGraphics();
     boolean sorted;
     boolean finished;
+
+    int width = 640;
+    int height = 480;
 
     public Sort(int mul) {
         this.mul = mul;
@@ -37,16 +38,28 @@ public abstract class Sort implements AnimationGen {
 
     int finish;
 
-    void finish() {
+    void finish(Graphics graphics) {
         graphics.setColor(Color.GREEN);
         for (int i = 0; i < array.size(); i++) {
             int val = array.get(i) * valCons;
             if (i == finish) {
                 graphics.setColor(Color.WHITE);
             }
-            graphics.fillRect(i * xCons, bim.getHeight() - val, valCons, val);
+            graphics.fillRect(i * xCons, height - val, valCons, val);
         }
         finish++;
         if (finish == array.size() + 1) finished = true;
+    }
+
+    @Override
+    public void provideFrame(Graphics g) {
+
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, width, height);
+    }
+
+    @Override
+    public VideoSize getSize() {
+        return new VideoSize(width, height, false);
     }
 }

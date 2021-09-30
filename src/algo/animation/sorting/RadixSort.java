@@ -1,7 +1,6 @@
 package algo.animation.sorting;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 
@@ -49,35 +48,34 @@ public class RadixSort extends Sort {
 
     Thread sort;
 
-    public BufferedImage provideFrame() {
-        graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0, bim.getWidth(), bim.getHeight());
+    public void provideFrame(Graphics g) {
+        super.provideFrame(g);
         if (sorted) {
-            finish();
-            return bim;
+            finish(g);
+            return;
         }
         for (int i = 0; i < array.size(); i++) {
             int val = array.get(i) * valCons;
 
             if (i == pointer) {
-                graphics.setColor(Color.RED);
+                g.setColor(Color.RED);
             } else if (selected.contains(i)) {
-                graphics.setColor(Color.GREEN);
+                g.setColor(Color.GREEN);
             } else {
-                graphics.setColor(Color.WHITE);
+                g.setColor(Color.WHITE);
             }
 
-            graphics.fillRect(i * xCons, bim.getHeight() - val, valCons, val);
+            g.fillRect(i * xCons, height - val, valCons, val);
         }
-        graphics.setColor(Color.WHITE);
+        g.setColor(Color.WHITE);
         String info = String.format("Radix Sort - get = %d | set = %d | compare = %d | aux set = %d", array.getGets(), array.getSets(), compare, arrayWrites);
-        graphics.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
         if (tick == 60) {
             Runnable r = () -> {
                 try {
                     sort();
                     sorted = true;
-                    finish();
+                    finish(g);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -90,14 +88,13 @@ public class RadixSort extends Sort {
             }
         }
         tick++;
-        return bim;
     }
 
     @Override
-    void finish() {
-        super.finish();
+    void finish(Graphics g) {
+        super.finish(g);
 
         String info = String.format("Radix Sort - get = %d | set = %d | compare = %d | aux set = %d", array.getGets(), array.getSets(), compare, arrayWrites);
-        graphics.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
     }
 }

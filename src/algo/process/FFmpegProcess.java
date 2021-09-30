@@ -1,6 +1,8 @@
 package algo.process;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,7 +31,7 @@ public class FFmpegProcess {
             width = frame.getWidth();
             height = frame.getHeight();
 
-            ffmpeg = Subprocess.call(String.format("\"%s\" -r 30 -pix_fmt rgb24 -f rawvideo -s %dx%d -i - %s", path, width, height, params), true);
+            ffmpeg = Subprocess.call(String.format("\"%s\" -r 30 -pix_fmt bgr24 -f rawvideo -s %dx%d -i - %s", path, width, height, params), true);
             pipe = ffmpeg.getOutputStream();
 
             // stdout重定向
@@ -49,6 +51,7 @@ public class FFmpegProcess {
             t.setDaemon(true);
             t.start();
         }
-        pipe.write(Etc.toByteArray(frame));
+        DataBufferByte buffer = (DataBufferByte) frame.getData().getDataBuffer();
+        pipe.write(buffer.getData());
     }
 }

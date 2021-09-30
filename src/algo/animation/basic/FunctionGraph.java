@@ -1,11 +1,11 @@
 package algo.animation.basic;
 
-import algo.animation.AnimationGen;
+import algo.animation.BasicAnimation;
+import algo.datatype.VideoSize;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
-public class FunctionGraph implements AnimationGen {
+public class FunctionGraph extends BasicAnimation {
     private int tick = 0;
     private double multiplier = 10;
     private int lpy;
@@ -16,10 +16,13 @@ public class FunctionGraph implements AnimationGen {
     }
 
     @Override
-    public BufferedImage provideFrame() {
-        BufferedImage bim = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
-        Graphics graphics = bim.getGraphics();
+    public VideoSize getSize() {
+        return new VideoSize(500, 500, true);
+    }
 
+    @Override
+    public void provideFrame(Graphics g) {
+        super.provideFrame(g);
         double period1 = Math.sin(Math.toRadians(this.tick) + 0.3);
         double period2 = Math.sin(Math.toRadians(this.tick) + 1.2) * 5;
         double period3 = Math.sin(Math.toRadians(this.tick) + 1.6) * 10;
@@ -29,12 +32,11 @@ public class FunctionGraph implements AnimationGen {
             double y = Math.sin(x * period1 + period2) * period3;
             int py = (int) (y * multiplier + 250);
             if (i > 1)
-                graphics.drawLine(i - 1, lpy, i, py);
+                g.drawLine(i - 1, lpy, i, py);
             lpy = py;
         }
         String str = String.format("f(x) = %.3f * sin(%.3fx + %.3f)", period3, period1, period2);
-        graphics.drawChars(str.toCharArray(), 0, str.length(), 0, 10);
+        g.drawChars(str.toCharArray(), 0, str.length(), 0, 10);
         tick++;
-        return bim;
     }
 }
