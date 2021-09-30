@@ -25,6 +25,7 @@ public class FFmpegProcess {
     }
 
     public void writeFrame(BufferedImage frame) throws IOException {
+        if (frame == null) throw new NullPointerException("frame is null");
         if (ffmpeg == null) {
             width = frame.getWidth();
             height = frame.getHeight();

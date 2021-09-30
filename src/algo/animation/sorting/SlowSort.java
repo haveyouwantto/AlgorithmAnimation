@@ -31,7 +31,7 @@ public class SlowSort extends Sort {
             this.end = end;
 
             // Uncomment below line to disable skipping
-            // lock.wait();
+            lock.wait();
 
             compare++;
             if (midVal > endVal) {
