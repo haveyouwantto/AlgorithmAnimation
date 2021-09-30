@@ -1,2 +1,5 @@
 *.gif
 *.mkv
+*.flac
+*.mp4
+out/
