@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class QuickSort extends Sort {
     int tick = 0;
-    int compare = 0;
+    long compare = 0;
 
     int pivot = -1;
     int start = -1;
@@ -15,6 +15,10 @@ public class QuickSort extends Sort {
     Set<Integer> sortedInt = new HashSet<>();
 
     final Object lock = new Object();
+
+    public QuickSort() {
+        this(1);
+    }
 
     public QuickSort(int mul) {
         super(mul);
@@ -125,7 +129,7 @@ public class QuickSort extends Sort {
             return;
         }
         for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * valCons;
+            int val = array.get(i) * heightScale;
 
             if (pointers.contains(i)) {
                 g.setColor(Color.RED);
@@ -139,7 +143,7 @@ public class QuickSort extends Sort {
                 g.setColor(Color.WHITE);
             }
 
-            g.fillRect(i * xCons, height - val, valCons, val);
+            g.fillRect(i * widthScale, height - val, mul < 0? 2 : heightScale, val);
         }
         g.setColor(Color.WHITE);
         String info = String.format("Quick Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);

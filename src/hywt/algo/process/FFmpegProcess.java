@@ -1,6 +1,5 @@
 package hywt.algo.process;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.BufferedReader;
@@ -32,7 +31,7 @@ public class FFmpegProcess {
             width = frame.getWidth();
             height = frame.getHeight();
 
-            ffmpeg = Subprocess.call(String.format("\"%s\" -re -r 60 -pix_fmt bgr24 -f rawvideo -s %dx%d -i - %s", path, width, height, params), true);
+            ffmpeg = Subprocess.call(String.format("\"%s\" -r 60 -pix_fmt bgr24 -f rawvideo -s %dx%d -i - %s", path, width, height, params), true);
             pipe = ffmpeg.getOutputStream();
 
             // stdout重定向

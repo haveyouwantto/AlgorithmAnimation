@@ -8,8 +8,12 @@ public class SelectionSort extends Sort {
     int max;
     int stop = elements - 1;
 
-    int compare = 0;
+    long compare = 0;
     int tick = 0;
+
+    public SelectionSort() {
+        this(1);
+    }
 
     public SelectionSort(int mul) {
         super(mul);
@@ -22,7 +26,7 @@ public class SelectionSort extends Sort {
             return;
         }
         for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * valCons;
+            int val = array.get(i) * heightScale;
             if (i == pointer) {
                 g.setColor(Color.RED);
             } else if (i == selected) {
@@ -32,7 +36,7 @@ public class SelectionSort extends Sort {
             } else {
                 g.setColor(Color.WHITE);
             }
-            g.fillRect(i * xCons, height - val, valCons, val);
+            g.fillRect(i * widthScale, height - val, mul < 0? 2 : heightScale, val);
         }
         g.setColor(Color.WHITE);
         String info = String.format("Selection Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);

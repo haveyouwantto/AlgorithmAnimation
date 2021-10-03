@@ -23,5 +23,5 @@ public class SineFunction extends Function {
     public String toString() {
         return "sin(x)";
     }
-    
+
 }

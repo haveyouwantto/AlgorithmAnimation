@@ -10,10 +10,14 @@ public class BogoSort extends Sort {
 
     int tick = 0;
 
+    public BogoSort() {
+        this(16);
+    }
+
     public BogoSort(int mul) {
         super(mul);
-        valCons = 12;
-        xCons = 16;
+        heightScale = 12;
+        widthScale = 16;
     }
 
     int maxSkip = 1;
@@ -47,8 +51,8 @@ public class BogoSort extends Sort {
         }
         g.setColor(Color.WHITE);
         for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * valCons;
-            g.fillRect(i * xCons, height - val, valCons, val);
+            int val = array.get(i) * heightScale;
+            g.fillRect(i * widthScale, height - val, mul < 0 ? 2 : heightScale, val);
         }
         g.setColor(Color.WHITE);
         String info = String.format("Bogo Sort - shuffles = %d | %dx speed", shuffles, (int) (Math.pow(1.002, maxSkip)));

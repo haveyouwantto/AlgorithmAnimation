@@ -21,6 +21,7 @@ public class DrawText extends BasicAnimation {
 
     @Override
     public void provideFrame(Graphics g) {
+        super.provideFrame(g);
         char[] hex = "0123456789ABCDEF".toCharArray();
         for (int x = 0; x < 16; x++) {
             g.drawChars(hex, x, 1, x * 16 + 64, 16);

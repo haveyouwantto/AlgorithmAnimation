@@ -1,7 +1,5 @@
 package hywt.math.function;
 
-import hywt.math.function.Function;
-
 public class CompositeFunction extends Function {
 
     /**

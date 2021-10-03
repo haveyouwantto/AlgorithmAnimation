@@ -2,7 +2,7 @@ package hywt.math.function.basic;
 
 import hywt.math.function.Function;
 
-public class NLogFunction extends Function{
+public class NLogFunction extends Function {
 
     @Override
     public double get(double x) {

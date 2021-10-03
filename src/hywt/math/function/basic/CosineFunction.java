@@ -18,7 +18,7 @@ public class CosineFunction extends Function {
     public Function derivative() {
         return new ConstantFunction(-1).multiply(new SineFunction());
     }
-    
+
     @Override
     public String toString() {
         return "cos(x)";

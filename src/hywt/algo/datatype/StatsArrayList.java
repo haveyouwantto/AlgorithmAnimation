@@ -3,8 +3,8 @@ package hywt.algo.datatype;
 import java.util.ArrayList;
 
 public class StatsArrayList<E> extends ArrayList<E> {
-    private int gets;
-    private int sets;
+    private long gets;
+    private long sets;
 
     public E statsGet(int index) {
         gets++;
@@ -22,11 +22,11 @@ public class StatsArrayList<E> extends ArrayList<E> {
         statsSet(i2, temp);
     }
 
-    public int getGets() {
+    public long getGets() {
         return gets;
     }
 
-    public int getSets() {
+    public long getSets() {
         return sets;
     }
 

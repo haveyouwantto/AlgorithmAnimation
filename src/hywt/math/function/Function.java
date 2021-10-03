@@ -1,8 +1,8 @@
 package hywt.math.function;
 
-import java.io.Serializable;
-
 import hywt.math.function.basic.ConstantFunction;
+
+import java.io.Serializable;
 
 public abstract class Function implements Serializable {
 

@@ -7,14 +7,17 @@ public class BubbleSort extends Sort {
     int pointer = 0;
     int stop = elements - 1;
 
-    int compare = 0;
+    long compare = 0;
 
     int tick = 0;
+
+    public BubbleSort() {
+        this(1);
+    }
 
     public BubbleSort(int mul) {
         super(mul);
     }
-
 
     void step() {
         int next = array.statsGet(pointer + 1);
@@ -39,7 +42,7 @@ public class BubbleSort extends Sort {
             return;
         }
         for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * valCons;
+            int val = array.get(i) * heightScale;
             if (i == pointer || i == pointer + 1) {
                 g.setColor(Color.RED);
             } else if (i == stop) {
@@ -47,7 +50,7 @@ public class BubbleSort extends Sort {
             } else {
                 g.setColor(Color.WHITE);
             }
-            g.fillRect(i * xCons, height - val, valCons, val);
+            g.fillRect(i * widthScale, height - val, mul < 0 ? 2 : heightScale, val);
         }
         g.setColor(Color.WHITE);
         String info = String.format("Bubble Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);

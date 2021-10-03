@@ -19,6 +19,7 @@ public abstract class Plot extends BasicAnimation {
 
     public Plot() {
         super();
+        magn = 1;
         lines = new HashSet<>();
         center = new Point2D(0, 0);
         mapperX = new Mapper(-2, 2, 0, 500);
@@ -42,8 +43,20 @@ public abstract class Plot extends BasicAnimation {
         return new int[]{(int) mapperX.get(x), (int) mapperY.get(y)};
     }
 
-    private double getXpos(int x) {
-        return 0;
+    public double getPosX(double x) {
+        return mapperX.get(x);
+    }
+
+    public double getPosY(double y) {
+        return mapperY.get(y);
+    }
+
+    public double getScaleX(double x) {
+        return x * magn * 250;
+    }
+
+    public double getScaleY(double y) {
+        return y * magn * 250;
     }
 
     private void drawLine2(Graphics g, Line2D l) {

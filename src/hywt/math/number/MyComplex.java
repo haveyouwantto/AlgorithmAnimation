@@ -44,7 +44,7 @@ public class MyComplex {
         return imag;
     }
 
-    public MyComplex clone(){
+    public MyComplex clone() {
         return new MyComplex(real, imag);
     }
 }

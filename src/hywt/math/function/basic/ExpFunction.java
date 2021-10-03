@@ -2,7 +2,7 @@ package hywt.math.function.basic;
 
 import hywt.math.function.Function;
 
-public class ExpFunction extends Function{
+public class ExpFunction extends Function {
 
     /**
      *

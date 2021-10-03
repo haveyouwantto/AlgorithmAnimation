@@ -4,12 +4,16 @@ import java.awt.*;
 
 public class SlowSort extends Sort {
     int tick = 0;
-    int compare = 0;
+    long compare = 0;
 
     int end = -1;
     int start = -1;
 
     final Object lock = new Object();
+
+    public SlowSort() {
+        this(1);
+    }
 
     public SlowSort(int mul) {
         super(mul);
@@ -30,7 +34,7 @@ public class SlowSort extends Sort {
             this.end = end;
 
             // Uncomment below line to disable skipping
-            lock.wait();
+            // lock.wait();
 
             compare++;
             if (midVal > endVal) {
@@ -52,7 +56,7 @@ public class SlowSort extends Sort {
             return;
         }
         for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * valCons;
+            int val = array.get(i) * heightScale;
 
             if (i == this.end) {
                 g.setColor(Color.YELLOW);
@@ -62,7 +66,7 @@ public class SlowSort extends Sort {
                 g.setColor(Color.WHITE);
             }
 
-            g.fillRect(i * xCons, height - val, valCons, val);
+            g.fillRect(i * widthScale, height - val, mul < 0? 2 : heightScale, val);
         }
         g.setColor(Color.WHITE);
         String info = String.format("Slow Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);

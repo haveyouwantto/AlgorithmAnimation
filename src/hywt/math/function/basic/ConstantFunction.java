@@ -9,7 +9,7 @@ public class ConstantFunction extends Function implements Comparable<ConstantFun
      */
     private static final long serialVersionUID = 2295492720087613300L;
     public static final Function ZERO = new ConstantFunction(0);
-    public static final Function ONE = new ConstantFunction(1); 
+    public static final Function ONE = new ConstantFunction(1);
 
     public final double cons;
 

@@ -16,7 +16,7 @@ public class AnimationTest extends BasicAnimation {
 
     @Override
     public VideoSize getSize() {
-        return new VideoSize(640,480);
+        return new VideoSize(640, 480);
     }
 
     @Override
