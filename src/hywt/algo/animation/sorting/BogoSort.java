@@ -1,7 +1,6 @@
 package hywt.algo.animation.sorting;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.Collections;
 
 public class BogoSort extends Sort {
@@ -40,31 +39,29 @@ public class BogoSort extends Sort {
     }
 
     @Override
-    public BufferedImage provideFrame() {
-        graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0, bim.getWidth(), bim.getHeight());
+    public void provideFrame(Graphics g) {
+        super.provideFrame(g);
         if (sorted) {
-            finish();
-            return bim;
+            finish(g);
+            return;
         }
-        graphics.setColor(Color.WHITE);
+        g.setColor(Color.WHITE);
         for (int i = 0; i < array.size(); i++) {
             int val = array.get(i) * valCons;
-            graphics.fillRect(i * xCons, bim.getHeight() - val, valCons, val);
+            g.fillRect(i * xCons, height - val, valCons, val);
         }
-        graphics.setColor(Color.WHITE);
+        g.setColor(Color.WHITE);
         String info = String.format("Bogo Sort - shuffles = %d | %dx speed", shuffles, (int) (Math.pow(1.002, maxSkip)));
-        graphics.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
         if (tick > 60) {
             step();
         }
         tick++;
-        return bim;
     }
 
-    void finish() {
-        super.finish();
+    void finish(Graphics g) {
+        super.finish(g);
         String info = String.format("Bogo Sort - shuffles = %d | %dx speed", shuffles, (int) (Math.pow(1.002, maxSkip)));
-        graphics.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
     }
 }

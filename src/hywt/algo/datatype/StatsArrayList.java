@@ -1,4 +1,4 @@
-package hywt.algo.datatype;
+package algo.datatype;
 
 import java.util.ArrayList;
 

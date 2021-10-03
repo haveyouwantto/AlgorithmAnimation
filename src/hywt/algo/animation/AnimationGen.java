@@ -1,8 +1,11 @@
 package hywt.algo.animation;
 
-import java.awt.image.BufferedImage;
+import algo.datatype.VideoSize;
+
+import java.awt.*;
 
 public interface AnimationGen {
     boolean hasNext();
-    BufferedImage provideFrame();
+    VideoSize getSize();
+    void provideFrame(Graphics g);
 }

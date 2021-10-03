@@ -1,11 +1,11 @@
 package hywt.algo.animation.basic;
 
-import hywt.algo.animation.AnimationGen;
+import algo.animation.BasicAnimation;
+import algo.datatype.VideoSize;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
-public class AnimationTest implements AnimationGen {
+public class AnimationTest extends BasicAnimation {
     private int i = 0;
 
 
@@ -15,14 +15,17 @@ public class AnimationTest implements AnimationGen {
     }
 
     @Override
-    public BufferedImage provideFrame() {
-        BufferedImage bim = new BufferedImage(640, 480, BufferedImage.TYPE_INT_RGB);
-        Graphics graphics = bim.getGraphics();
+    public VideoSize getSize() {
+        return new VideoSize(640,480, true);
+    }
+
+    @Override
+    public void provideFrame(Graphics g) {
+        super.provideFrame(g);
         int i2 = (int) ((Math.sin(Math.toRadians(i)) + 1) * 180);
         i++;
-        graphics.drawOval(10, 10, i2, i2);
+        g.drawOval(10, 10, i2, i2);
         String str = String.format("frame=%3d  diameter=%3d", i, i2);
-        graphics.drawChars(str.toCharArray(), 0, str.length(), 100, 100);
-        return bim;
+        g.drawChars(str.toCharArray(), 0, str.length(), 100, 100);
     }
 }

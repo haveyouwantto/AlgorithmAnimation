@@ -1,7 +1,6 @@
-package hywt.algo.animation.sorting;
+package algo.animation.sorting;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class BubbleSort extends Sort {
 
@@ -33,39 +32,38 @@ public class BubbleSort extends Sort {
     }
 
     @Override
-    public BufferedImage provideFrame() {
-        graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0, bim.getWidth(), bim.getHeight());
+    public void provideFrame(Graphics g) {
+        super.provideFrame(g);
         if (sorted) {
-            finish();
-            return bim;
+            finish(g);
+            return;
         }
         for (int i = 0; i < array.size(); i++) {
             int val = array.get(i) * valCons;
             if (i == pointer || i == pointer + 1) {
-                graphics.setColor(Color.RED);
+                g.setColor(Color.RED);
             } else if (i == stop) {
-                graphics.setColor(Color.YELLOW);
+                g.setColor(Color.YELLOW);
             } else {
-                graphics.setColor(Color.WHITE);
+                g.setColor(Color.WHITE);
             }
-            graphics.fillRect(i * xCons, bim.getHeight() - val, valCons, val);
+            g.fillRect(i * xCons, height - val, valCons, val);
         }
-        graphics.setColor(Color.WHITE);
+        g.setColor(Color.WHITE);
         String info = String.format("Bubble Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
-        graphics.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
         if (tick > 60) {
             step();
         }
         tick++;
-        return bim;
+        return;
     }
 
     @Override
-    void finish() {
-        super.finish();
+    void finish(Graphics g) {
+        super.finish(g);
 
         String info = String.format("Bubble Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
-        graphics.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
     }
 }
