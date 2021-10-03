@@ -1,4 +1,4 @@
-package algo.animation.sorting;
+package hywt.algo.animation.sorting;
 
 import java.awt.*;
 

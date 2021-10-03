@@ -1,8 +1,8 @@
 package hywt.algo.animation.sorting;
 
-import algo.animation.AnimationGen;
-import algo.datatype.VideoSize;
-import algo.datatype.StatsArrayList;
+import hywt.algo.animation.AnimationGen;
+import hywt.algo.datatype.VideoSize;
+import hywt.algo.datatype.StatsArrayList;
 
 import java.awt.*;
 import java.util.Collections;

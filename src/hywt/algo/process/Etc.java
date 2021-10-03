@@ -1,4 +1,4 @@
-package algo.process;
+package hywt.algo.process;
 
 import java.awt.image.BufferedImage;
 

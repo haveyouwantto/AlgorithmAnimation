@@ -1,7 +1,7 @@
 package hywt.algo.animation.basic;
 
-import algo.animation.BasicAnimation;
-import algo.datatype.VideoSize;
+import hywt.algo.animation.BasicAnimation;
+import hywt.algo.datatype.VideoSize;
 
 import java.awt.*;
 

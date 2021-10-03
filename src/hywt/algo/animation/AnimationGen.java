@@ -1,6 +1,6 @@
 package hywt.algo.animation;
 
-import algo.datatype.VideoSize;
+import hywt.algo.datatype.VideoSize;
 
 import java.awt.*;
 

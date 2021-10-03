@@ -1,8 +1,8 @@
 package hywt.algo;
 
-import algo.animation.AnimationGen;
-import algo.datatype.VideoSize;
-import algo.process.FFmpegProcess;
+import hywt.algo.animation.AnimationGen;
+import hywt.algo.datatype.VideoSize;
+import hywt.algo.process.FFmpegProcess;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

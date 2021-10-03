@@ -1,7 +1,7 @@
-import algo.CreateAnimation;
-import algo.animation.basic.AnimationTest;
-import algo.animation.basic.FunctionGraph;
-import algo.animation.sorting.*;
+package hywt.algo;
+
+import hywt.algo.CreateAnimation;
+import hywt.algo.animation.sorting.*;
 
 import java.io.File;
 import java.io.IOException;

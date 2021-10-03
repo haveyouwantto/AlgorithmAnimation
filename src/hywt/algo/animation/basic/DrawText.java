@@ -1,11 +1,11 @@
 package hywt.algo.animation.basic;
 
-import hywt.algo.animation.AnimationGen;
+import hywt.algo.animation.BasicAnimation;
+import hywt.algo.datatype.VideoSize;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
-public class DrawText implements AnimationGen {
+public class DrawText extends BasicAnimation {
 
     int ord;
 
@@ -15,9 +15,12 @@ public class DrawText implements AnimationGen {
     }
 
     @Override
-    public BufferedImage provideFrame() {
-        BufferedImage bim = new BufferedImage(320, 280, BufferedImage.TYPE_INT_RGB);
-        Graphics g = bim.getGraphics();
+    public VideoSize getSize() {
+        return new VideoSize(320, 280, true);
+    }
+
+    @Override
+    public void provideFrame(Graphics g) {
         char[] hex = "0123456789ABCDEF".toCharArray();
         for (int x = 0; x < 16; x++) {
             g.drawChars(hex, x, 1, x * 16 + 64, 16);
@@ -30,6 +33,5 @@ public class DrawText implements AnimationGen {
             }
         }
         ord += 256;
-        return bim;
     }
 }

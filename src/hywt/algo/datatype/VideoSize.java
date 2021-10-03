@@ -1,4 +1,4 @@
-package algo.datatype;
+package hywt.algo.datatype;
 
 public class VideoSize {
     public final int width;
