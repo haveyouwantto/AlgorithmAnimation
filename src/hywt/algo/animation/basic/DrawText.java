@@ -16,7 +16,7 @@ public class DrawText extends BasicAnimation {
 
     @Override
     public VideoSize getSize() {
-        return new VideoSize(320, 280, true);
+        return new VideoSize(320, 280);
     }
 
     @Override

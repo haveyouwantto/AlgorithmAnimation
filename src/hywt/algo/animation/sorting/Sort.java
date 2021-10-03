@@ -19,6 +19,10 @@ public abstract class Sort implements AnimationGen {
     int width = 640;
     int height = 480;
 
+    public Sort() {
+        this(1);
+    }
+
     public Sort(int mul) {
         this.mul = mul;
         if (160 % mul != 0) throw new ArithmeticException("mul must be dividable by 160");
@@ -60,6 +64,6 @@ public abstract class Sort implements AnimationGen {
 
     @Override
     public VideoSize getSize() {
-        return new VideoSize(width, height, false);
+        return new VideoSize(width, height);
     }
 }

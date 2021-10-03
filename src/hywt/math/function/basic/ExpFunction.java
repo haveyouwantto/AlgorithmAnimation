@@ -1,4 +1,4 @@
-package hywt.math.function.base;
+package hywt.math.function.basic;
 
 import hywt.math.function.Function;
 

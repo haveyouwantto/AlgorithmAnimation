@@ -17,7 +17,7 @@ public class FunctionGraph extends BasicAnimation {
 
     @Override
     public VideoSize getSize() {
-        return new VideoSize(500, 500, true);
+        return new VideoSize(500, 500);
     }
 
     @Override

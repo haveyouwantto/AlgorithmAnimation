@@ -2,7 +2,7 @@ package hywt.math.function;
 
 import java.io.Serializable;
 
-import hywt.math.function.base.ConstantFunction;
+import hywt.math.function.basic.ConstantFunction;
 
 public abstract class Function implements Serializable {
 
@@ -16,23 +16,31 @@ public abstract class Function implements Serializable {
         return new ComplexFunction(this, f, FunctionOperation.ADD);
     }
 
+    public Function add(double n) {
+        return add(new ConstantFunction(n));
+    }
+
     public Function subtract(Function f) {
         return new ComplexFunction(this, f, FunctionOperation.SUBTRACT);
+    }
+
+    public Function subtract(double n) {
+        return subtract(new ConstantFunction(n));
     }
 
     public Function multiply(Function f) {
         return new ComplexFunction(this, f, FunctionOperation.MULTIPLY);
     }
 
-    public Function multiply(double mul) {
-        return multiply(new ConstantFunction(mul));
+    public Function multiply(double n) {
+        return multiply(new ConstantFunction(n));
     }
 
     public Function divide(Function f) {
         return new ComplexFunction(this, f, FunctionOperation.DIVIDE);
     }
 
-    public Function divide(double div) {
-        return divide(new ConstantFunction(div));
+    public Function divide(double n) {
+        return divide(new ConstantFunction(n));
     }
 }

@@ -1,7 +1,6 @@
 package hywt.algo;
 
-import hywt.algo.CreateAnimation;
-import hywt.algo.animation.sorting.*;
+import hywt.algo.animation.plot.Clock;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +13,7 @@ public class Main {
 //                new File("slow2.mkv")
 //        );
         CreateAnimation.nvenc265(
-                new SlowSort(1),
+                new Clock(),
                 new File("new.mkv")
         );
     }

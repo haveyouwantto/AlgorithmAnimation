@@ -1,7 +1,7 @@
 package hywt.math.function;
 
-import hywt.math.function.base.ConstantFunction;
-import hywt.math.function.base.PowerFunction;
+import hywt.math.function.basic.ConstantFunction;
+import hywt.math.function.basic.PowerFunction;
 
 public class Functions {
     private Functions() {
