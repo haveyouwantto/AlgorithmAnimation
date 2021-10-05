@@ -10,6 +10,7 @@ public class BubbleSort extends Sort {
     long compare = 0;
 
     int tick = 0;
+    boolean correct = true;
 
     public BubbleSort() {
         this(1);
@@ -24,13 +25,15 @@ public class BubbleSort extends Sort {
         int current = array.statsGet(pointer);
         compare++;
         if (next < current) {
+            correct = false;
             array.statsSet(pointer, next);
             array.statsSet(pointer + 1, current);
         }
         if (++pointer >= stop) {
             pointer = 0;
             --stop;
-            if (stop <= 1) sorted = true;
+            if (stop <= 1 || correct) sorted = true;
+            correct = true;
         }
     }
 

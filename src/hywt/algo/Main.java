@@ -14,12 +14,8 @@ public class Main {
 //                new File("slow2.mkv")
 //        );
         CreateAnimation.nvenc265(
-                new MergeSort(-960),
-                new File("merge.mkv")
-        );
-        CreateAnimation.nvenc265(
-                new QuickSort(-960),
-                new File("quick.mkv")
+                new BubbleSort(2),
+                new File("bubble.mkv")
         );
     }
 }

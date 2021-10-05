@@ -1,4 +1,4 @@
-package hywt.algo.animation.gui;
+package hywt.algo.gui;
 
 import hywt.algo.animation.AnimationGen;
 import hywt.algo.datatype.VideoSize;
@@ -19,7 +19,7 @@ public class GUI extends JFrame {
 
     static class Panel extends JPanel {
         private AnimationGen gen;
-        private int frame;
+        private int frame = 1;
 
         public Panel(AnimationGen gen) {
             this.gen = gen;
@@ -79,9 +79,13 @@ public class GUI extends JFrame {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
+            System.err.println("这个类不是算法动画。");
         } catch (ClassNotFoundException e) {
-            System.err.println("未找到此类。");
             e.printStackTrace();
+            System.err.println("未找到此类。");
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+            System.err.println("这个类不是算法动画。");
         }
     }
 }

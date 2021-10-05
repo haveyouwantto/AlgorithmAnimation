@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="AlgorithmAnimation:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/AlgorithmAnimation_jar</output-path>
+    <root id="archive" name="AlgorithmAnimation.jar">
+      <element id="module-output" name="AlgorithmAnimation" />
+    </root>
+  </artifact>
+</component>
