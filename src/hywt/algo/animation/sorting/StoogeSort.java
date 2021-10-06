@@ -3,7 +3,6 @@ package hywt.algo.animation.sorting;
 import java.awt.*;
 
 public class StoogeSort extends Sort {
-    int tick = 0;
     long compare = 0;
 
     int end = -1;
@@ -47,28 +46,8 @@ public class StoogeSort extends Sort {
     Thread sort;
 
     public void provideFrame(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, width, height);
-        if (sorted) {
-            finish(g);
-            return;
-        }
-        for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * heightScale;
-
-            if (i == this.end) {
-                g.setColor(Color.YELLOW);
-            } else if (i == this.start) {
-                g.setColor(Color.CYAN);
-            } else {
-                g.setColor(Color.WHITE);
-            }
-
-            g.fillRect(i * widthScale, height - val, mul < 0? 2 : heightScale, val);
-        }
-        g.setColor(Color.WHITE);
-        String info = String.format("Stooge Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
-        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+        super.provideFrame(g);
+        drawText(g);
         if (tick == 60) {
             Runnable r = () -> {
                 try {
@@ -90,9 +69,34 @@ public class StoogeSort extends Sort {
     }
 
     @Override
-    void finish(Graphics g) {
-        super.finish(g);
+    public void drawText(Graphics g) {
+
+        g.setColor(Color.WHITE);
         String info = String.format("Stooge Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
         g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+    }
+
+    @Override
+    protected void drawList(Graphics g) {
+
+        for (int i = 0; i < array.size(); i++) {
+            int val = array.get(i) * heightScale;
+
+            if (i == this.end) {
+                g.setColor(Color.YELLOW);
+            } else if (i == this.start) {
+                g.setColor(Color.CYAN);
+            } else {
+                g.setColor(Color.WHITE);
+            }
+
+            g.fillRect(i * widthScale, height - val, mul < 0 ? 2 : heightScale, val);
+        }
+    }
+
+    @Override
+    void finish(Graphics g) {
+        super.finish(g);
+        drawText(g);
     }
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.*;
 
 public class RadixSort extends Sort {
-    int tick = 0;
     long compare = 0;
 
     int arrayWrites = 0;
@@ -54,26 +53,6 @@ public class RadixSort extends Sort {
 
     public void provideFrame(Graphics g) {
         super.provideFrame(g);
-        if (sorted) {
-            finish(g);
-            return;
-        }
-        for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * heightScale;
-
-            if (i == pointer) {
-                g.setColor(Color.RED);
-            } else if (selected.contains(i)) {
-                g.setColor(Color.GREEN);
-            } else {
-                g.setColor(Color.WHITE);
-            }
-
-            g.fillRect(i * widthScale, height - val, mul < 0? 2 : heightScale, val);
-        }
-        g.setColor(Color.WHITE);
-        String info = String.format("Radix Sort - get = %d | set = %d | compare = %d | aux set = %d", array.getGets(), array.getSets(), compare, arrayWrites);
-        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
         if (tick == 60) {
             Runnable r = () -> {
                 try {
@@ -95,10 +74,34 @@ public class RadixSort extends Sort {
     }
 
     @Override
-    void finish(Graphics g) {
-        super.finish(g);
+    public void drawText(Graphics g) {
 
+        g.setColor(Color.WHITE);
         String info = String.format("Radix Sort - get = %d | set = %d | compare = %d | aux set = %d", array.getGets(), array.getSets(), compare, arrayWrites);
         g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+    }
+
+    @Override
+    protected void drawList(Graphics g) {
+
+        for (int i = 0; i < array.size(); i++) {
+            int val = array.get(i) * heightScale;
+
+            if (i == pointer) {
+                g.setColor(Color.RED);
+            } else if (selected.contains(i)) {
+                g.setColor(Color.GREEN);
+            } else {
+                g.setColor(Color.WHITE);
+            }
+
+            g.fillRect(i * widthScale, height - val, mul < 0 ? 2 : heightScale, val);
+        }
+    }
+
+    @Override
+    void finish(Graphics g) {
+        super.finish(g);
+        drawText(g);
     }
 }

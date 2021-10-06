@@ -9,7 +9,6 @@ public class BubbleSort extends Sort {
 
     long compare = 0;
 
-    int tick = 0;
     boolean correct = true;
 
     public BubbleSort() {
@@ -40,10 +39,22 @@ public class BubbleSort extends Sort {
     @Override
     public void provideFrame(Graphics g) {
         super.provideFrame(g);
-        if (sorted) {
-            finish(g);
-            return;
+        if (tick > 60) {
+            step();
         }
+        tick++;
+    }
+
+    @Override
+    public void drawText(Graphics g) {
+        g.setColor(Color.WHITE);
+        String info = String.format("Bubble Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
+        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+    }
+
+    @Override
+    protected void drawList(Graphics g) {
+
         for (int i = 0; i < array.size(); i++) {
             int val = array.get(i) * heightScale;
             if (i == pointer || i == pointer + 1) {
@@ -55,21 +66,11 @@ public class BubbleSort extends Sort {
             }
             g.fillRect(i * widthScale, height - val, mul < 0 ? 2 : heightScale, val);
         }
-        g.setColor(Color.WHITE);
-        String info = String.format("Bubble Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
-        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
-        if (tick > 60) {
-            step();
-        }
-        tick++;
-        return;
     }
 
     @Override
     void finish(Graphics g) {
         super.finish(g);
-
-        String info = String.format("Bubble Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
-        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+        drawText(g);
     }
 }

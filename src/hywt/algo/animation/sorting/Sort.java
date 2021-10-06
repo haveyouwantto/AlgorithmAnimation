@@ -16,6 +16,7 @@ public abstract class Sort implements AnimationGen {
     boolean sorted;
     boolean finished;
 
+    int tick = 0;
     int width = 640;
     int height = 480;
 
@@ -58,19 +59,28 @@ public abstract class Sort implements AnimationGen {
             }
             graphics.fillRect(i * widthScale, height - val,  mul < 0? 2 : heightScale, val);
         }
+        drawText(graphics);
         finish++;
         if (finish == array.size() + 1) finished = true;
     }
 
     @Override
     public void provideFrame(Graphics g) {
-
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
+        if (sorted) {
+            finish(g);
+            return;
+        }
+        drawList(g);
+        drawText(g);
     }
 
     @Override
     public VideoSize getSize() {
         return new VideoSize(width, height);
     }
+
+    protected abstract void drawText(Graphics g);
+    protected abstract void drawList(Graphics g);
 }

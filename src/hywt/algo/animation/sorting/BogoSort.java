@@ -45,27 +45,30 @@ public class BogoSort extends Sort {
     @Override
     public void provideFrame(Graphics g) {
         super.provideFrame(g);
-        if (sorted) {
-            finish(g);
-            return;
-        }
-        g.setColor(Color.WHITE);
-        for (int i = 0; i < array.size(); i++) {
-            int val = array.get(i) * heightScale;
-            g.fillRect(i * widthScale, height - val, mul < 0 ? 2 : heightScale, val);
-        }
-        g.setColor(Color.WHITE);
-        String info = String.format("Bogo Sort - shuffles = %d | %dx speed", shuffles, (int) (Math.pow(1.002, maxSkip)));
-        g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
         if (tick > 60) {
             step();
         }
         tick++;
     }
 
-    void finish(Graphics g) {
-        super.finish(g);
+    @Override
+    public void drawText(Graphics g) {
+        g.setColor(Color.WHITE);
         String info = String.format("Bogo Sort - shuffles = %d | %dx speed", shuffles, (int) (Math.pow(1.002, maxSkip)));
         g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
+    }
+
+    @Override
+    protected void drawList(Graphics g) {
+        g.setColor(Color.WHITE);
+        for (int i = 0; i < array.size(); i++) {
+            int val = array.get(i) * heightScale;
+            g.fillRect(i * widthScale, height - val, mul < 0 ? 2 : heightScale, val);
+        }
+    }
+
+    void finish(Graphics g) {
+        super.finish(g);
+        drawText(g);
     }
 }
