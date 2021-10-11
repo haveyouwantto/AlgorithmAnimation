@@ -1,21 +1,21 @@
 package hywt.algo;
 
-import hywt.algo.animation.plot.Clock;
-import hywt.algo.animation.sorting.*;
+import hywt.algo.animation.etc.AllSortings;
+import hywt.algo.animation.general.Hanoi;
 
 import java.io.File;
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        CreateAnimation.create(
-                "-c:v hevc_nvenc -qp 16 -sws_flags neighbor -pix_fmt yuv420p -sws_flags neighbor -vf scale=-2:2160",
-                new InsertionSort(2),
-                new File("insert.mkv")
-        );
-//        CreateAnimation.nvenc265(
-//                new InsertionSort(2),
-//                new File("insert.mkv")
+//        CreateAnimation.create(
+//                "-c:v hevc_nvenc -qp 16 -sws_flags neighbor -pix_fmt yuv420p -sws_flags neighbor -vf scale=-2:2160",
+//                new Hanoi(),
+//                new File("hanoi.mkv")
 //        );
+        CreateAnimation.x264(
+                new Hanoi(),
+                new File("hanoi.mkv")
+        );
     }
 }

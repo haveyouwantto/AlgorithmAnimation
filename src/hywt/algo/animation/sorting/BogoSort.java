@@ -16,8 +16,10 @@ public class BogoSort extends Sort {
 
     public BogoSort(int mul) {
         super(mul);
-        heightScale = 12;
-        widthScale = 16;
+        if (mul > 1) {
+            heightScale = 12;
+            widthScale = 16;
+        }
     }
 
     int maxSkip = 1;

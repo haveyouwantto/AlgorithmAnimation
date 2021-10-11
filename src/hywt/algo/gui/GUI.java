@@ -17,12 +17,18 @@ public class GUI extends JFrame {
         initialize(className);
     }
 
+    public GUI(AnimationGen gen) {
+        super();
+        initialize(gen);
+    }
+
     static class Panel extends JPanel {
         private AnimationGen gen;
         private int frame = 1;
 
         public Panel(AnimationGen gen) {
             this.gen = gen;
+            setBackground(Color.BLACK);
         }
 
         @Override
@@ -39,8 +45,7 @@ public class GUI extends JFrame {
         }
     }
 
-    private void initialize(String className) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        AnimationGen gen = (AnimationGen) Class.forName(className).newInstance();
+    private void initialize(AnimationGen gen) {
         VideoSize size = gen.getSize();
 
         getContentPane().setPreferredSize(new Dimension(size.width, size.height));
@@ -64,6 +69,11 @@ public class GUI extends JFrame {
             }
         });
         t.start();
+    }
+
+    private void initialize(String className) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        AnimationGen gen = (AnimationGen) Class.forName(className).newInstance();
+        initialize(gen);
     }
 
     public static void main(String[] args) {

@@ -1,13 +1,19 @@
-import hywt.math.function.Function;
-import hywt.math.function.Functions;
+import hywt.algo.CreateAnimation;
+import hywt.algo.animation.AnimationGen;
+import hywt.algo.animation.Animations;
+import hywt.algo.animation.TextTransition;
+import hywt.algo.animation.general.Hanoi;
+import hywt.algo.animation.general.Sudoku;
+import hywt.algo.animation.sorting.MergeSort;
+import hywt.algo.animation.sorting.QuickSort;
+import hywt.algo.gui.GUI;
+
+import java.io.File;
+import java.io.IOException;
 
 public class Test {
-    public static void main(String[] args) {
-        Function function = Functions.polyFunction(0, 0, 2);
-        Function derivative = function.derivative();
-        Function sim = Functions.simplify(derivative);
-        System.out.println(function);
-        System.out.println(derivative);
-        System.out.println(sim);
+    public static void main(String[] args) throws IOException {
+        GUI gui = new GUI(new Hanoi());
+        gui.setVisible(true);
     }
 }
