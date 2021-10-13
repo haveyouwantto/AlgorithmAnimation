@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class Test {
     public static void main(String[] args) throws IOException {
-        GUI gui = new GUI(new Hanoi());
+        GUI gui = new GUI(new Sudoku());
         gui.setVisible(true);
     }
 }
