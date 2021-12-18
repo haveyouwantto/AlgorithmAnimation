@@ -27,13 +27,17 @@ public class Hanoi extends BasicAnimation {
     int moves = 0;
 
     public Hanoi() {
+        this(10);
+    }
+
+    public Hanoi(int height) {
         super();
         a = new Stack<>();
         b = new Stack<>();
         c = new Stack<>();
         movements = new Stack<>();
 
-        for (int i = 18; i > 0; i--) {
+        for (int i = height; i > 0; i--) {
             a.push(i);
         }
         xStep = width / 3;
