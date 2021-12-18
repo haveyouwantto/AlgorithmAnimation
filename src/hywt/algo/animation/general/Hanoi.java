@@ -19,7 +19,6 @@ public class Hanoi extends BasicAnimation {
     private final int xStep;
 
     long tick = 0;
-    long finishTick = Long.MAX_VALUE;
     boolean finished = false;
 
     final Object lock = new Object();
@@ -99,7 +98,6 @@ public class Hanoi extends BasicAnimation {
 
     private void finish() {
         finished = true;
-        finishTick = tick;
     }
 
     public void drawTower(Graphics g, Stack<Integer> stack, int posX) {
@@ -166,7 +164,7 @@ public class Hanoi extends BasicAnimation {
 
     @Override
     public boolean hasNext() {
-        return !(finished && tick > finishTick + 60);
+        return !finished;
     }
 
     @Override

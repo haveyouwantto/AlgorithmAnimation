@@ -15,7 +15,7 @@ public class BasicGraph extends BasicAnimation {
     int mul;
 
     public BasicGraph() throws IOException {
-        graph = Graph.loadImage(new File("graph1.png"));
+        graph = Graph.loadImage(new File("medium-maze.png"));
         explored = new Color(0x3D85FF);
         mul = 4;
     }
@@ -33,7 +33,8 @@ public class BasicGraph extends BasicAnimation {
     @Override
     public void provideFrame(Graphics g) {
         super.provideFrame(g);
-        int offset = 320 - (graph.getWidth() * mul / 2);
+        int offsetX = 320 - (graph.getWidth() * mul / 2);
+        int offsetY = 240 - (graph.getHeight() * mul / 2);
         for (int y = 0; y < graph.getHeight(); y++) {
             for (int x = 0; x < graph.getWidth(); x++) {
                 switch (graph.get(x, y)) {
@@ -55,7 +56,7 @@ public class BasicGraph extends BasicAnimation {
                         g.setColor(Color.YELLOW);
                         break;
                 }
-                g.fillRect(x * mul + offset, y * mul + 64, mul, mul);
+                g.fillRect(x * mul + offsetX, y * mul + offsetY, mul, mul);
             }
         }
         tick++;

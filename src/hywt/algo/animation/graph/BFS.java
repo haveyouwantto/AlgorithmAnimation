@@ -15,10 +15,14 @@ public class BFS extends BasicGraph {
     protected boolean path = false;
 
     Point next;
-    int lastTick = 0;
 
     public BFS() throws IOException {
         super();
+        points.add(graph.getStart());
+    }
+
+    public BFS(Graph graph) throws IOException {
+        this.graph = graph;
         points.add(graph.getStart());
     }
 
@@ -56,7 +60,6 @@ public class BFS extends BasicGraph {
                 Direction dir = directions.get(next);
                 if (dir == null) {
                     path = true;
-                    lastTick = tick;
                 } else {
                     next = dir.move(next);
                 }
@@ -67,7 +70,7 @@ public class BFS extends BasicGraph {
 
     @Override
     public boolean hasNext() {
-        return !(solved && path && tick - lastTick > 180);
+        return !(solved && path);
     }
 
     private void search(Point p) {

@@ -18,22 +18,38 @@ public class Graph {
     public static final int EXPLORED = -1;
     public static final int PATH = -2;
 
-    private Graph(int width, int height) {
+    public Graph(int width, int height) {
         grid = new int[height][width];
     }
 
-    private void setStart(int x, int y) {
+    private Graph(int[][] grid) {
+        this.grid = grid;
+    }
+
+    public void setStart(int x, int y) {
         start = new Point(x, y);
         set(x, y, START);
     }
 
-    private void setEnd(int x, int y) {
+    public void setEnd(int x, int y) {
         end = new Point(x, y);
         set(x, y, END);
     }
 
     public Point getStart() {
         return start;
+    }
+
+    public void drawHorizontal(int startX, int endX, int y, int state) {
+        for (int i = startX; i <= endX; i++) {
+            set(i, y, state);
+        }
+    }
+
+    public void drawVertical(int x, int startY, int endY, int state) {
+        for (int i = startY; i <= endY; i++) {
+            set(x, i, state);
+        }
     }
 
     public Point getEnd() {
@@ -86,6 +102,14 @@ public class Graph {
                 }
             }
         }
+        return graph;
+    }
+
+    @Override
+    public Object clone() {
+        Graph graph = new Graph(grid.clone());
+        graph.setStart(start.x, start.y);
+        graph.setEnd(end.x, end.y);
         return graph;
     }
 }
