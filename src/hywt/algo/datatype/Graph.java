@@ -17,6 +17,7 @@ public class Graph {
     public static final int END = 3;
     public static final int EXPLORED = -1;
     public static final int PATH = -2;
+    public static final int TRIED = -3;
 
     public Graph(int width, int height) {
         grid = new int[height][width];

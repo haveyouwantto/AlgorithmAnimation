@@ -16,7 +16,7 @@ public class Main {
         Graph graph = generator.getGraph();
         BFS bfs = new BFS(graph);
         CreateAnimation.create(
-                "-c:v hevc_nvenc -qp 16 -sws_flags neighbor -pix_fmt yuv420p -sws_flags neighbor -vf scale=-2:1080",
+                "-c:v hevc_nvenc -qp 16 -sws_flags neighbor -pix_fmt yuv420p -sws_flags neighbor -vf scale=-2:2160",
                 new Animations(new DelayQuit(generator), new TextTransition(generator.getSize(), "开始搜索"), new DelayQuit(bfs)),
                 new File("videos/gen.mkv")
         );

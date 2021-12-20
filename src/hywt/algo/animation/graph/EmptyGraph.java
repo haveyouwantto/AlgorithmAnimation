@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class EmptyGraph extends BasicGraph {
     public EmptyGraph() throws IOException {
-        int width = 65;
-        int height = 65;
+        int width = 81;
+        int height = 81;
         graph = new Graph(width, height);
         graph.drawHorizontal(0, width - 1, 0, Graph.WALL);
         graph.drawHorizontal(0, width - 1, height - 1, Graph.WALL);

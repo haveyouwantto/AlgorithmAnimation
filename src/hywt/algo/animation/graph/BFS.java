@@ -1,5 +1,6 @@
 package hywt.algo.animation.graph;
 
+import hywt.algo.datatype.Direction;
 import hywt.algo.datatype.Graph;
 
 import java.awt.*;
@@ -26,32 +27,12 @@ public class BFS extends BasicGraph {
         points.add(graph.getStart());
     }
 
-    static class Direction {
-        public static final Direction NORTH = new Direction(0, -1);
-        public static final Direction SOUTH = new Direction(0, 1);
-        public static final Direction WEST = new Direction(-1, 0);
-        public static final Direction EAST = new Direction(1, 0);
-
-        private final int x;
-        private final int y;
-
-        public Direction(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public Point move(Point origin) {
-            return new Point(origin.x + x, origin.y + y);
-        }
-    }
-
 
     @Override
     public void provideFrame(Graphics g) {
         super.provideFrame(g);
         String info = String.format("广度优先搜索 - queue length=%d", points.size());
         g.drawChars(info.toCharArray(), 0, info.length(), 4, 12);
-
         if (tick > 150) {
             if (!solved) {
                 search(points.pop());

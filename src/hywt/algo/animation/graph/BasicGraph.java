@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class BasicGraph extends BasicAnimation {
     protected Graph graph;
-    private Color explored;
+    private final Color explored;
     int tick;
     int mul;
 
@@ -54,6 +54,9 @@ public class BasicGraph extends BasicAnimation {
                         break;
                     case Graph.PATH:
                         g.setColor(Color.YELLOW);
+                        break;
+                    case Graph.TRIED:
+                        g.setColor(Color.GRAY);
                         break;
                 }
                 g.fillRect(x * mul + offsetX, y * mul + offsetY, mul, mul);
