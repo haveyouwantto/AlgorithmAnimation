@@ -19,8 +19,8 @@ public class DFS extends BasicGraph {
 
     public DFS() throws IOException {
         super();
+        registerColorMapper(Graph.EXPLORED, point -> Color.MAGENTA);
     }
-
 
     @Override
     public void provideFrame(Graphics g) {

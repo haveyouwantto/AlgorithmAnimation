@@ -31,7 +31,7 @@ public class FFmpegProcess {
             width = frame.getWidth();
             height = frame.getHeight();
 
-            ffmpeg = Subprocess.call(String.format("\"%s\" -r 30 -pix_fmt bgr24 -f rawvideo -s %dx%d -i - %s", path, width, height, params), true);
+            ffmpeg = Subprocess.call(String.format("%s -r 30 -colorspace bt709 -pix_fmt bgr24 -f rawvideo -s %dx%d -i - %s", path, width, height, params), true);
             pipe = ffmpeg.getOutputStream();
 
             // stdout重定向

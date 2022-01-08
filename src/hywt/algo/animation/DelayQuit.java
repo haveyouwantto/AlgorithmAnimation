@@ -29,6 +29,7 @@ public class DelayQuit implements AnimationGen {
         if (base.hasNext()) {
             base.provideFrame(g);
         } else if (!finished) {
+            base.provideFrame(g);
             finished = true;
             finishTick = tick;
         }

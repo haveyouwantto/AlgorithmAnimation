@@ -39,7 +39,7 @@ public class CreateAnimation {
     }
 
     public static void av1(AnimationGen gen, File file) throws IOException {
-        create("-c:v libaom-av1 -pix_fmt yuv420p -tiles 2x4 -cpu-used 8", gen, file);
+        create("-c:v libaom-av1 -pix_fmt yuv420p -g 300 -tiles 2x4 -cpu-used 8", gen, file);
     }
 
     public static void gif(AnimationGen gen, File file) throws IOException {

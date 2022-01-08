@@ -35,7 +35,7 @@ public class Clock extends Plot {
         g.setColor(Color.WHITE);
         g.drawOval((int) getPosX(-1.2), (int) getPosY(1.2), (int) getScaleX(1.2), (int) getScaleY(1.2));
 
-        String date = String.format("%04d-%02d-%02d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        String date = String.format("%04d-%02d-%02d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
         Rectangle2D rect = g.getFont().getStringBounds(date, g2.getFontRenderContext());
         g.drawChars(date.toCharArray(), 0, date.length(), (int) (250 - rect.getWidth() / 2d), 450);
 
