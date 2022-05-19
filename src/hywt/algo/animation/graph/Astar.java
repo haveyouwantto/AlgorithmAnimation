@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class Astar extends BasicGraph {
 
@@ -24,6 +25,7 @@ public class Astar extends BasicGraph {
     protected Function mapper;
 
     Point next;
+    Point current;
 
     public Astar() throws IOException {
         super();
@@ -38,7 +40,7 @@ public class Astar extends BasicGraph {
 
         explored = new Color(255, 0, 255);
         registerColorMapper(Graph.PATH, point -> explored);
-        registerColorMapper(Graph.EXPLORED, point -> Color.getHSBColor((float) mapper.get(getPriority(point)), 1, 1));
+        registerColorMapper(Graph.EXPLORED, point -> Color.getHSBColor((float) mapper.get(getPriority(point)), 0.5f, 1));
     }
 
     protected int getDistance(Point p1, Point p2) {
@@ -100,10 +102,13 @@ public class Astar extends BasicGraph {
             next = p;
             directions.put(p, direction);
         }
-        if (graph.get(p) == Graph.EMPTY && !points.contains(p)) {
-            steps.put(p, steps.get(parent) + 1);
-            points.add(p);
-            directions.put(p, direction);
+        else if (graph.get(p) == Graph.EMPTY) {
+            if (!points.contains(p)) {
+                steps.put(p, steps.get(parent) + 1);
+                points.add(p);
+                directions.put(p, direction);
+            }
         }
+
     }
 }

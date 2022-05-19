@@ -1,24 +1,52 @@
 package hywt.algo.datatype;
 
-import hywt.algo.animation.graph.BFS;
-
 import java.awt.*;
 
-public class Direction {
-    public static final Direction NORTH = new Direction(0, -1);
-    public static final Direction SOUTH = new Direction(0, 1);
-    public static final Direction WEST = new Direction(-1, 0);
-    public static final Direction EAST = new Direction(1, 0);
+public enum Direction {
+    NORTH(0, -1),
+    SOUTH(0, 1),
+    WEST(-1, 0),
+    EAST(1, 0);
 
     private final int x;
     private final int y;
 
-    public Direction(int x, int y) {
+    Direction(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
     public Point move(Point origin) {
         return new Point(origin.x + x, origin.y + y);
+    }
+
+    public Direction left() {
+        switch (this) {
+            case NORTH:
+                return WEST;
+            case WEST:
+                return SOUTH;
+            case SOUTH:
+                return EAST;
+            case EAST:
+                return NORTH;
+            default:
+                return null;
+        }
+    }
+
+    public Direction right() {
+        switch (this) {
+            case NORTH:
+                return EAST;
+            case EAST:
+                return SOUTH;
+            case SOUTH:
+                return WEST;
+            case WEST:
+                return NORTH;
+            default:
+                return null;
+        }
     }
 }
