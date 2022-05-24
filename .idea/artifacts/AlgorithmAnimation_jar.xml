@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/AlgorithmAnimation_jar</output-path>
     <root id="archive" name="AlgorithmAnimation.jar">
       <element id="module-output" name="AlgorithmAnimation" />
+      <element id="dir-copy" path="$PROJECT_DIR$/resources" />
     </root>
   </artifact>
 </component>

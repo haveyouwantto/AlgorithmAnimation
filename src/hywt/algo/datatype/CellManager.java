@@ -1,24 +1,27 @@
 package hywt.algo.datatype;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
-public class CellManager {
+public class CellManager implements Iterable<Integer> {
     private final int[] cells;
     private final int width;
     private final int height;
     private Updater updater;
 
-
     @FunctionalInterface
     public interface Updater {
-        int update(int v);
+        void update();
     }
 
     public CellManager(int width, int height) {
         this.width = width;
         this.height = height;
         this.cells = new int[width * height];
-        Arrays.fill(cells, 100);
+    }
+
+    public void fill(int val) {
+        Arrays.fill(cells, val);
     }
 
     public int get(int x, int y) {
@@ -30,16 +33,22 @@ public class CellManager {
     }
 
     public void update() {
-        for (int i = 0; i < cells.length; i++) {
-            int newValue = updater.update(cells[i]);
-            if (newValue > 200) newValue = 200;
-            else if (newValue < 0) newValue = 0;
-            cells[i] = newValue;
-        }
+        updater.update();
     }
 
-    public int[] getCells() {
-        return cells;
+    public int get(int index) {
+        return cells[index];
+    }
+
+    public void set(int index, int value) {
+        if (value > 200) {
+            cells[index] = 200;
+            return;
+        } else if (value < 0) {
+            cells[index] = 0;
+            return;
+        }
+        cells[index] = value;
     }
 
     public void getFrequency(double[] arr) {
@@ -49,5 +58,14 @@ public class CellManager {
         for (int i = 0; i < arr.length; i++) {
             arr[i] = arr[i] / (width * height);
         }
+    }
+
+    public int size() {
+        return cells.length;
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return Arrays.stream(cells).iterator();
     }
 }

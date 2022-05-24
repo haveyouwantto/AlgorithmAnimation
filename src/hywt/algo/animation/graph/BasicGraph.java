@@ -18,19 +18,20 @@ public class BasicGraph extends BasicAnimation {
     private int mul;
 
     public BasicGraph() throws IOException {
-        this(Graph.loadImage(new File("medium-maze.png")));
+        this(Graph.loadImage(ClassLoader.getSystemResourceAsStream("graph.png")));
     }
 
     public BasicGraph(Graph graph) {
         this.graph = graph;
         explored = new Color(0x3D85FF);
+        Color path = new Color(0xFF8C00);
         mul = 4;
         colorMap = new HashMap<>();
         registerColorMapper(Graph.WALL, point -> Color.WHITE);
         registerColorMapper(Graph.START, point -> Color.RED);
         registerColorMapper(Graph.END, point -> Color.GREEN);
         registerColorMapper(Graph.EXPLORED, point -> explored);
-        registerColorMapper(Graph.PATH, point -> Color.YELLOW);
+        registerColorMapper(Graph.PATH, point -> path);
         registerColorMapper(Graph.TRIED, point -> Color.GRAY);
     }
 
@@ -69,5 +70,9 @@ public class BasicGraph extends BasicAnimation {
 
     public void setMul(int mul) {
         this.mul = mul;
+    }
+
+    public void setGraph(Graph g) {
+        graph = g;
     }
 }

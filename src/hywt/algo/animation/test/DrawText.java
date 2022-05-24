@@ -1,4 +1,4 @@
-package hywt.algo.animation.basic;
+package hywt.algo.animation.test;
 
 import hywt.algo.animation.BasicAnimation;
 import hywt.algo.datatype.VideoSize;

@@ -66,4 +66,10 @@ public class BFS extends BasicGraph {
             directions.put(p, direction);
         }
     }
+
+    public void setGraph(Graph g) {
+        graph = g;
+        points.clear();
+        points.add(g.getStart());
+    }
 }

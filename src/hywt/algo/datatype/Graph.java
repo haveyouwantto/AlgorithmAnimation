@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class Graph {
     private int[][] grid;
@@ -81,7 +82,7 @@ public class Graph {
         return grid.length;
     }
 
-    public static Graph loadImage(File image) throws IOException {
+    public static Graph loadImage(InputStream image) throws IOException {
         BufferedImage bim = ImageIO.read(image);
         int width = bim.getWidth(), height = bim.getHeight();
         Graph graph = new Graph(width, height);

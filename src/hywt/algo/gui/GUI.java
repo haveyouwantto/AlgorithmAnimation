@@ -5,6 +5,7 @@ import hywt.algo.datatype.VideoSize;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class GUI extends JFrame {
 
@@ -25,10 +26,13 @@ public class GUI extends JFrame {
     static class Panel extends JPanel {
         private AnimationGen gen;
         private int frame = 1;
+        private BufferedImage buffer;
 
         public Panel(AnimationGen gen) {
             this.gen = gen;
             setBackground(Color.BLACK);
+            VideoSize size = gen.getSize();
+            buffer = new BufferedImage(size.width, size.height, BufferedImage.TYPE_3BYTE_BGR);
         }
 
         @Override
@@ -36,7 +40,8 @@ public class GUI extends JFrame {
             //Graphics2D g2 = (Graphics2D) g;
             //g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
             super.paintComponent(g);
-            gen.provideFrame(g);
+            gen.provideFrame(buffer.getGraphics());
+            g.drawImage(buffer, 0, 0, null);
             frame++;
         }
 
@@ -55,7 +60,8 @@ public class GUI extends JFrame {
 
         Panel panel = new Panel(gen);
         setContentPane(panel);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        //setType(Type.POPUP);
 
         Thread t = new Thread(() -> {
             try {

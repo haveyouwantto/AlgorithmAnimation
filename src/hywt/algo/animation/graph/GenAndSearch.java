@@ -7,14 +7,19 @@ import hywt.algo.animation.TextTransition;
 import hywt.algo.datatype.VideoSize;
 
 import java.awt.*;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 public class GenAndSearch extends BasicAnimation {
     private AnimationGen animations;
 
+    public GenAndSearch() throws IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        this(new RecursiveSplitGenerator(), BFS.class);
+    }
+
     public GenAndSearch(BasicGraph gen, Class<? extends BasicGraph> searchClass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         BasicGraph search = searchClass.getConstructor().newInstance();
-        search.graph = gen.graph;
+        search.setGraph(gen.graph);
         search.setMul(gen.getMul());
         this.animations = new Animations(gen, new TextTransition(gen.getSize(), "开始搜索"), search);
     }
