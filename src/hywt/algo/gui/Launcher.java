@@ -22,7 +22,7 @@ public class Launcher extends JFrame {
 
         JPanel main = new JPanel();
         main.setLayout(new GridLayout());
-        main.setBorder(new TitledBorder("Classes"));
+        main.setBorder(new TitledBorder("动画列表"));
 
         JScrollPane scrollPane = new JScrollPane();
 
@@ -50,7 +50,7 @@ public class Launcher extends JFrame {
             }
         });
 
-        setTitle("Launcher");
+        setTitle("算法动画");
         getContentPane().setPreferredSize(new Dimension(320, 480));
         pack();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

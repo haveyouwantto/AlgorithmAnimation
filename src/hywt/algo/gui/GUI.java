@@ -37,9 +37,9 @@ public class GUI extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
             //Graphics2D g2 = (Graphics2D) g;
             //g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-            super.paintComponent(g);
             gen.provideFrame(buffer.getGraphics());
             g.drawImage(buffer, 0, 0, null);
             frame++;

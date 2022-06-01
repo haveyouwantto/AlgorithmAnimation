@@ -17,24 +17,28 @@ public class Vector2D implements Cloneable {
         );
     }
 
-    public void add(Vector2D v) {
+    public Vector2D add(Vector2D v) {
         this.x += v.x;
         this.y += v.y;
+        return this;
     }
 
-    public void add(double x, double y) {
+    public Vector2D add(double x, double y) {
         this.x += x;
         this.y += y;
+        return this;
     }
 
-    public void subtract(Vector2D v) {
+    public Vector2D subtract(Vector2D v) {
         this.x -= v.x;
         this.y -= v.y;
+        return this;
     }
 
-    public void subtract(double x, double y) {
+    public Vector2D subtract(double x, double y) {
         this.x -= x;
         this.y -= y;
+        return this;
     }
 
     public Vector2D multiply(double n) {
@@ -70,7 +74,7 @@ public class Vector2D implements Cloneable {
     }
 
     @Override
-    public Object clone() {
+    public Vector2D clone() {
         return new Vector2D(x, y);
     }
 

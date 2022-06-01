@@ -1,34 +1,34 @@
 package hywt.math.number;
 
-public class MyComplex {
+public class Complex {
     public double real;
     public double imag;
 
-    public MyComplex(double real, double imag) {
+    public Complex(double real, double imag) {
         this.real = real;
         this.imag = imag;
     }
 
-    public MyComplex add(MyComplex other) {
+    public Complex add(Complex other) {
         real += other.real;
         imag += other.imag;
         return this;
     }
 
-    public MyComplex subtract(MyComplex other) {
+    public Complex subtract(Complex other) {
         real -= other.real;
         imag -= other.imag;
         return this;
     }
 
-    public MyComplex multiply(MyComplex other) {
+    public Complex multiply(Complex other) {
         double r = real * other.real - imag * other.imag;
         imag = real * other.imag + imag * other.real;
         this.real = r;
         return this;
     }
 
-    public MyComplex divide(MyComplex other) {
+    public Complex divide(Complex other) {
         return null;
     }
 
@@ -44,7 +44,7 @@ public class MyComplex {
         return imag;
     }
 
-    public MyComplex clone() {
-        return new MyComplex(real, imag);
+    public Complex clone() {
+        return new Complex(real, imag);
     }
 }
