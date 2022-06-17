@@ -2,6 +2,7 @@ package hywt.algo.process;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.awt.image.RenderedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,7 +26,7 @@ public class FFmpegProcess {
         this("ffmpeg", params);
     }
 
-    public void writeFrame(BufferedImage frame) throws IOException {
+    public void writeFrame(RenderedImage frame) throws IOException {
         if (frame == null) throw new NullPointerException("frame is null");
         if (ffmpeg == null) {
             width = frame.getWidth();

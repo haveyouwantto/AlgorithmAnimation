@@ -20,7 +20,7 @@ public class Distribution extends BasicAnimation {
 
     @Override
     public boolean hasNext() {
-        return frame < 30 * 120;
+        return frame < 30 * 117;
     }
 
     @Override

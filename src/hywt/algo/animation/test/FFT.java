@@ -16,13 +16,16 @@ import java.util.LinkedList;
 public class FFT extends BasicAnimation {
     double tick = 0;
 
-    int width = 1280;
-    int height = 720;
+    int width = 640;
+    int height = 360;
 
-    double zoom = 2;
-    double speed = 10;
+    double ratio = width * 1d / height;
+
+    double zoom = 0.25;
+    double speed;
     Mapper mx = new Mapper(-1 / zoom, 1 / zoom, 0, width);
-    Mapper my = new Mapper(-1 / zoom / 1.777, 1 / zoom / 1.777, 0, height);
+    Mapper my = new Mapper(-1 / zoom / ratio, 1 / zoom / ratio, 0, height);
+    Mapper ma = new Mapper(0, 1 / zoom, 0, width);
 
 
     LinkedList<Point2D> pointList = new LinkedList<>();
@@ -30,10 +33,10 @@ public class FFT extends BasicAnimation {
 
     Vector2D camera;
     boolean follow = false;
-    boolean infiniteLoop = true;
+    boolean infiniteLoop = false;
 
-//    Stroke line = new BasicStroke(3);
-//    Stroke trail = new BasicStroke(1);
+    Stroke line = new BasicStroke(1);
+    Stroke trail = new BasicStroke(1);
 
 
     static class FFTData implements Comparable<FFTData> {
@@ -49,23 +52,25 @@ public class FFT extends BasicAnimation {
 
         @Override
         public int compareTo(FFTData o) {
-            return Double.compare(Math.abs(o.amp), Math.abs(this.amp));
+            return Double.compare(Math.abs(this.freq), Math.abs(o.freq));
         }
     }
 
     public FFT() throws IOException {
         super();
         InputStream is = ClassLoader.getSystemResourceAsStream("fft.bin");
-        fft = new FFTData[is.available() / 12];
+        fft = new FFTData[is.available() / 24];
         DataInputStream dis = new DataInputStream(is);
         for (int i = 0; i < fft.length; i++) {
             fft[i] = new FFTData(
-                    dis.readFloat(),
-                    dis.readFloat(),
-                    dis.readFloat()
+                    dis.readDouble(),
+                    dis.readDouble(),
+                    dis.readDouble()
             );
         }
         Arrays.sort(fft);
+
+        //fft[0] = new FFTData(0,0,fft[0].phase);
 
         Vector2D center = new Vector2D(0, 0);
         if (follow) {
@@ -74,6 +79,7 @@ public class FFT extends BasicAnimation {
             }
         }
         camera = center;
+        speed = fft.length / 900d;
     }
 
     @Override
@@ -90,26 +96,31 @@ public class FFT extends BasicAnimation {
     public void provideFrame(Graphics g) {
         super.provideFrame(g);
 
-
-        tick += speed;
+        Graphics2D g2 = (Graphics2D) g;
+//        g2.setFont(g2.getFont().deriveFont(32f));
 
         Vector2D center = new Vector2D(0, 0);
-        for (FFTData data : fft) {
-            center.add(Vector2D.fromPolar(data.amp, 2 * Math.PI * tick * data.freq + data.phase));
-        }
+        Arrays.stream(fft).forEach(data -> center.add(Vector2D.fromPolar(data.amp, 2 * Math.PI * tick * data.freq + data.phase)));
 
         if (follow) {
+            camera = center;
             mx = new Mapper(camera.x - 1 / zoom, camera.x + 1 / zoom, 0, width);
             my = new Mapper(camera.y - 1 / zoom / 1.777, camera.y + 1 / zoom / 1.777, 0, height);
-            camera.add(center.clone().subtract(camera).divide(2));
+            ma = new Mapper(0, 1 / zoom, 0, width);
+
+//            Vector2D distance = center.clone().subtract(camera);
+//            camera.add(distance.divide(50));
         }
 //
-//        zoom = 1;
-//        speed = 0.0005;
+//        if (zoom > 0.05)
+//            zoom /= 1.0003;
+//        if (speed < 1)
+//            speed /= 0.9996;
 
         double cx = 0;
         double cy = 0;
         for (int i = 0; i < fft.length; i++) {
+            g2.setStroke(line);
             g.setColor(Color.getHSBColor((float) i / fft.length * 0.75f, 1, 1));
 
             FFTData data = fft[i];
@@ -120,27 +131,35 @@ public class FFT extends BasicAnimation {
 
             g.drawLine((int) mx.get(cx), (int) my.get(cy), (int) mx.get(x), (int) my.get(y));
 
+            g2.setStroke(trail);
+            g.setColor(Color.GRAY);
+            double circle = data.amp;
+            g.drawOval((int) mx.get(cx - circle), (int) my.get(cy - circle), (int) ma.get(circle), (int) ma.get(circle));
+
             cx = x;
             cy = y;
         }
-        pointList.add(new Point2D(center.x, center.y));
 
-        if (tick / fft.length > 1) {
-            pointList.removeFirst();
-        }
         g.setColor(Color.WHITE);
-
+        g2.setStroke(line);
         Point2D last = null;
         for (Point2D p : pointList) {
-            if (last == null) {
-                g.drawRect((int) mx.get(p.x), (int) my.get(p.y), 0, 0);
-            } else {
+            if (last != null) {
                 g.drawLine((int) mx.get(last.x), (int) my.get(last.y), (int) mx.get(p.x), (int) my.get(p.y));
             }
             last = p;
         }
 
+        pointList.add(new Point2D(center.x, center.y));
+
+        if (tick / fft.length > 1) {
+            pointList.removeFirst();
+        }
+
+
         g.setColor(Color.WHITE);
-        g.drawString(String.format("%f%%", tick / fft.length * 100), 16, 16);
+        g.drawString(String.format("%f%% | zoom=%5.5g | speed=%5.5g | vectors=%d", tick / fft.length * 100, zoom, speed, fft.length), 8, 16);
+
+        tick += speed;
     }
 }

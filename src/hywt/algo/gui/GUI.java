@@ -82,6 +82,13 @@ public class GUI extends JFrame {
         initialize(gen);
     }
 
+    public void setExitOnClose(boolean exitOnClose) {
+        if (exitOnClose)
+            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        else
+            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
     public static void main(String[] args) {
         GUI gui = null;
         try {
@@ -90,6 +97,7 @@ public class GUI extends JFrame {
             } else {
                 gui = new GUI(args[0]);
             }
+            gui.setExitOnClose(true);
             gui.setVisible(true);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
