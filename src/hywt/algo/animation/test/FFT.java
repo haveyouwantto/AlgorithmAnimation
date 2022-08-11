@@ -16,8 +16,8 @@ import java.util.LinkedList;
 public class FFT extends BasicAnimation {
     double tick = 0;
 
-    int width = 640;
-    int height = 360;
+    int width = 1920;
+    int height = 1080;
 
     double ratio = width * 1d / height;
 
@@ -32,10 +32,10 @@ public class FFT extends BasicAnimation {
     FFTData[] fft;
 
     Vector2D camera;
-    boolean follow = false;
+    boolean follow = true;
     boolean infiniteLoop = false;
 
-    Stroke line = new BasicStroke(1);
+    Stroke line = new BasicStroke(4);
     Stroke trail = new BasicStroke(1);
 
 
@@ -79,12 +79,12 @@ public class FFT extends BasicAnimation {
             }
         }
         camera = center;
-        speed = fft.length / 900d;
+        speed = 0.02;
     }
 
     @Override
     public boolean hasNext() {
-        return infiniteLoop || tick / fft.length < 1;
+        return infiniteLoop || tick / fft.length < 2;
     }
 
     @Override
@@ -97,25 +97,26 @@ public class FFT extends BasicAnimation {
         super.provideFrame(g);
 
         Graphics2D g2 = (Graphics2D) g;
-//        g2.setFont(g2.getFont().deriveFont(32f));
+//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setFont(g2.getFont().deriveFont(32f));
 
         Vector2D center = new Vector2D(0, 0);
         Arrays.stream(fft).forEach(data -> center.add(Vector2D.fromPolar(data.amp, 2 * Math.PI * tick * data.freq + data.phase)));
 
         if (follow) {
-            camera = center;
+//            camera = center;
             mx = new Mapper(camera.x - 1 / zoom, camera.x + 1 / zoom, 0, width);
             my = new Mapper(camera.y - 1 / zoom / 1.777, camera.y + 1 / zoom / 1.777, 0, height);
             ma = new Mapper(0, 1 / zoom, 0, width);
 
-//            Vector2D distance = center.clone().subtract(camera);
-//            camera.add(distance.divide(50));
+            Vector2D distance = center.clone().subtract(camera);
+            camera.add(distance.divide(10));
         }
 //
-//        if (zoom > 0.05)
-//            zoom /= 1.0003;
-//        if (speed < 1)
-//            speed /= 0.9996;
+        if (zoom > 0.01)
+            zoom /= 1.0005;
+        if (speed < 1)
+            speed /= 0.9996;
 
         double cx = 0;
         double cy = 0;
@@ -130,7 +131,6 @@ public class FFT extends BasicAnimation {
             double y = cy + v.y;
 
             g.drawLine((int) mx.get(cx), (int) my.get(cy), (int) mx.get(x), (int) my.get(y));
-
             g2.setStroke(trail);
             g.setColor(Color.GRAY);
             double circle = data.amp;
@@ -158,7 +158,7 @@ public class FFT extends BasicAnimation {
 
 
         g.setColor(Color.WHITE);
-        g.drawString(String.format("%f%% | zoom=%5.5g | speed=%5.5g | vectors=%d", tick / fft.length * 100, zoom, speed, fft.length), 8, 16);
+        g.drawString(String.format("%f%% | zoom=%5.5g | speed=%5.5g | vectors=%d", tick / fft.length * 100, zoom, speed, fft.length), 8, 32);
 
         tick += speed;
     }

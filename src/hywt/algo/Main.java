@@ -14,16 +14,16 @@ import java.lang.reflect.InvocationTargetException;
 public class Main {
     public static void main(String[] args) throws IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         AnimationGen anim = new FFT();
-//        CreateAnimation.create(
-//                "-c:v hevc_nvenc -qp 16 -sws_flags neighbor -pix_fmt yuv420p -sws_flags neighbor -vf scale=-2:2160",
-//                new DelayQuit(anim),
-//                new File("videos/1.mkv")
-//        );
+        CreateAnimation.create(
+                "-c:v hevc_nvenc -qp 16 -sws_flags neighbor -pix_fmt yuv420p -sws_flags neighbor",
+                new DelayQuit(anim),
+                new File("videos/fft2.mkv")
+        );
 //        CreateAnimation.nvenc(
 //                anim,
 //                new File("videos","thankyou.mkv")
 //        );
-        CreateAnimation.x264(anim, new File("videos/test.mkv"));
+//        CreateAnimation.x264(anim, new File("videos/thankyou2.mkv"));
 //        CreateAnimation.png(anim, new File("videos/"));
     }
 }

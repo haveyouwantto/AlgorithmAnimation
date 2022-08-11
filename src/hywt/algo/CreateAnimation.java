@@ -7,6 +7,7 @@ import hywt.algo.process.FFmpegProcess;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.VolatileImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -14,11 +15,9 @@ public class CreateAnimation {
     public static void create(String params, AnimationGen gen, File file) throws IOException {
         FFmpegProcess ffmpeg = new FFmpegProcess(params + " -y " + file.toString());
         VideoSize size = gen.getSize();
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
         BufferedImage frameBuffer = new BufferedImage(size.width, size.height, BufferedImage.TYPE_3BYTE_BGR);
         Graphics2D graphics = (Graphics2D) frameBuffer.getGraphics();
-//        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         while (gen.hasNext()) {
             gen.provideFrame(graphics);
             ffmpeg.writeFrame(frameBuffer);

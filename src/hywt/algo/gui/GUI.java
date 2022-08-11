@@ -53,7 +53,7 @@ public class GUI extends JFrame {
     private void initialize(AnimationGen gen) {
         VideoSize size = gen.getSize();
 
-        getContentPane().setPreferredSize(new Dimension(size.width, size.height));
+        getContentPane().setPreferredSize(size.toDimension());
         pack();
         setTitle("算法动画");
         setResizable(false);
@@ -66,7 +66,7 @@ public class GUI extends JFrame {
         Thread t = new Thread(() -> {
             try {
                 while (gen.hasNext()) {
-                    panel.repaint();
+                    panel.updateUI();
                     setTitle(String.format("算法动画 - 第%04d帧", panel.getFrame()));
                     Thread.sleep(1000 / 60);
                 }

@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 
 public class FFmpegProcess {
 
@@ -32,7 +33,7 @@ public class FFmpegProcess {
             width = frame.getWidth();
             height = frame.getHeight();
 
-            ffmpeg = Subprocess.call(String.format("%s -r 30 -colorspace bt709 -pix_fmt bgr24 -f rawvideo -s %dx%d -i - %s", path, width, height, params), true);
+            ffmpeg = Subprocess.call(String.format("%s -r 60 -colorspace bt709 -pix_fmt bgr24 -f rawvideo -s %dx%d -i - %s", path, width, height, params), true);
             pipe = ffmpeg.getOutputStream();
 
             // stdout重定向

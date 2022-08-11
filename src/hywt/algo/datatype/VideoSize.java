@@ -1,5 +1,6 @@
 package hywt.algo.datatype;
 
+import java.awt.*;
 import java.util.Objects;
 
 public class VideoSize {
@@ -9,6 +10,10 @@ public class VideoSize {
     public VideoSize(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    public Dimension toDimension() {
+        return new Dimension(width, height);
     }
 
     @Override

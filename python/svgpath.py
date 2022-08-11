@@ -14,7 +14,7 @@ from svgpathtools import parse_path
 from svgpathtools import svg2paths, wsvg
 
 paths, attributes = svg2paths(
-    'C:/Users/havey/Desktop/绘图-3.svg')
+    'C:/Users/havey/Downloads/feuille-leaf-04.svg')
 
 from fftgen import fftgen
 

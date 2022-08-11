@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.fftpack as fft
 from scipy.interpolate import interp1d
-from scipy.signal import blackman, square
 
 
 def fftgen(wave):
