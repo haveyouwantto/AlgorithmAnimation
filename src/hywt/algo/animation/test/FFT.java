@@ -21,7 +21,7 @@ public class FFT extends BasicAnimation {
 
     double ratio = width * 1d / height;
 
-    double zoom = 0.25;
+    double zoom = 0.01;
     double speed;
     Mapper mx = new Mapper(-1 / zoom, 1 / zoom, 0, width);
     Mapper my = new Mapper(-1 / zoom / ratio, 1 / zoom / ratio, 0, height);
@@ -35,7 +35,7 @@ public class FFT extends BasicAnimation {
     boolean follow = true;
     boolean infiniteLoop = false;
 
-    Stroke line = new BasicStroke(4);
+    Stroke line = new BasicStroke(2);
     Stroke trail = new BasicStroke(1);
 
 
@@ -58,7 +58,7 @@ public class FFT extends BasicAnimation {
 
     public FFT() throws IOException {
         super();
-        InputStream is = ClassLoader.getSystemResourceAsStream("fft.bin");
+        InputStream is = ClassLoader.getSystemResourceAsStream("fft/leaf.bin");
         fft = new FFTData[is.available() / 24];
         DataInputStream dis = new DataInputStream(is);
         for (int i = 0; i < fft.length; i++) {
@@ -79,7 +79,7 @@ public class FFT extends BasicAnimation {
             }
         }
         camera = center;
-        speed = 0.02;
+        speed = 1;
     }
 
     @Override
@@ -113,14 +113,16 @@ public class FFT extends BasicAnimation {
             camera.add(distance.divide(10));
         }
 //
-        if (zoom > 0.01)
-            zoom /= 1.0005;
-        if (speed < 1)
-            speed /= 0.9996;
+//        if (zoom > 0.01)
+//            zoom /= 1.0005;
+//        if (speed < 1)
+//            speed /= 0.9996;
 
         double cx = 0;
         double cy = 0;
         for (int i = 0; i < fft.length; i++) {
+
+            // Vector
             g2.setStroke(line);
             g.setColor(Color.getHSBColor((float) i / fft.length * 0.75f, 1, 1));
 
@@ -131,10 +133,12 @@ public class FFT extends BasicAnimation {
             double y = cy + v.y;
 
             g.drawLine((int) mx.get(cx), (int) my.get(cy), (int) mx.get(x), (int) my.get(y));
-            g2.setStroke(trail);
-            g.setColor(Color.GRAY);
-            double circle = data.amp;
-            g.drawOval((int) mx.get(cx - circle), (int) my.get(cy - circle), (int) ma.get(circle), (int) ma.get(circle));
+
+            // Circle
+//            g2.setStroke(trail);
+//            g.setColor(Color.GRAY);
+//            double circle = data.amp;
+//            g.drawOval((int) mx.get(cx - circle), (int) my.get(cy - circle), (int) ma.get(circle), (int) ma.get(circle));
 
             cx = x;
             cy = y;
