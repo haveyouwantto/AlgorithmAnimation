@@ -13,7 +13,7 @@ print(paths)
 
 lst = []
 
-precision = 500
+precision = 1000
 for path in paths:
     for i in range(precision):
         lst.append(path.point(i / precision))
