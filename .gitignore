@@ -1,7 +1,3 @@
-*.gif
-*.mkv
-*.flac
-*.mp4
 out/
 launch_script/
 videos/*
