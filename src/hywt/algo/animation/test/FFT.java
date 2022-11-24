@@ -58,7 +58,7 @@ public class FFT extends BasicAnimation {
 
     public FFT() throws IOException {
         super();
-        InputStream is = ClassLoader.getSystemResourceAsStream("fft/leaf.bin");
+        InputStream is = ClassLoader.getSystemResourceAsStream("fft.fft");
         fft = new FFTData[is.available() / 24];
         DataInputStream dis = new DataInputStream(is);
         for (int i = 0; i < fft.length; i++) {
@@ -79,12 +79,15 @@ public class FFT extends BasicAnimation {
             }
         }
         camera = center;
-        speed = 1;
+
+        // how many frames per cycle
+        // speed = 1.0 / frames
+        speed = 1.0 / 600;
     }
 
     @Override
     public boolean hasNext() {
-        return infiniteLoop || tick / fft.length < 2;
+        return infiniteLoop || tick < 2;
     }
 
     @Override
@@ -135,10 +138,10 @@ public class FFT extends BasicAnimation {
             g.drawLine((int) mx.get(cx), (int) my.get(cy), (int) mx.get(x), (int) my.get(y));
 
             // Circle
-//            g2.setStroke(trail);
-//            g.setColor(Color.GRAY);
-//            double circle = data.amp;
-//            g.drawOval((int) mx.get(cx - circle), (int) my.get(cy - circle), (int) ma.get(circle), (int) ma.get(circle));
+            g2.setStroke(trail);
+            g.setColor(Color.GRAY);
+            double circle = data.amp;
+            g.drawOval((int) mx.get(cx - circle), (int) my.get(cy - circle), (int) ma.get(circle), (int) ma.get(circle));
 
             cx = x;
             cy = y;
@@ -156,13 +159,13 @@ public class FFT extends BasicAnimation {
 
         pointList.add(new Point2D(center.x, center.y));
 
-        if (tick / fft.length > 1) {
+        if (tick > 1) {
             pointList.removeFirst();
         }
 
 
         g.setColor(Color.WHITE);
-        g.drawString(String.format("%f%% | zoom=%5.5g | speed=%5.5g | vectors=%d", tick / fft.length * 100, zoom, speed, fft.length), 8, 32);
+        g.drawString(String.format("%f%% | zoom=%5.5g | speed=%5.5g | vectors=%d", tick * 100, zoom, speed, fft.length), 8, 32);
 
         tick += speed;
     }
