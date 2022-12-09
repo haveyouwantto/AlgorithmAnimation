@@ -17,7 +17,6 @@ public class CreateAnimation {
         VideoSize size = gen.getSize();
         BufferedImage frameBuffer = new BufferedImage(size.width, size.height, BufferedImage.TYPE_3BYTE_BGR);
         Graphics2D graphics = (Graphics2D) frameBuffer.getGraphics();
-        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         while (gen.hasNext()) {
             gen.provideFrame(graphics);
             ffmpeg.writeFrame(frameBuffer);

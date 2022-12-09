@@ -10,6 +10,14 @@ public class RadixSort extends Sort {
     int arrayWrites = 0;
     int pointer = -1;
     Set<Integer> selected = new HashSet<>();
+    List<LinkedList<Integer>> buckets;
+
+    private final Color[] palette = {
+            new Color(0xEF4426),
+            new Color(0xECEC2C),
+            new Color(0x27F127),
+            new Color(0x1C95FF)
+    };
 
     final Object lock = new Object();
 
@@ -24,7 +32,7 @@ public class RadixSort extends Sort {
     private void sort() throws InterruptedException {
         synchronized (lock) {
             int n = 0;
-            List<LinkedList<Integer>> buckets = new ArrayList<>();
+            buckets = new ArrayList<>();
             for (int i = 0; i < 4; i++) {
                 buckets.add(new LinkedList<>());
             }
@@ -42,10 +50,13 @@ public class RadixSort extends Sort {
                         lock.wait();
                         pointer++;
                     }
-                    bucket.clear();
+                }
+                for (int i = 0; i < 4; i++) {
+                    buckets.get(i).clear();
                 }
                 n++;
             }
+            lock.wait();
         }
     }
 
@@ -87,14 +98,21 @@ public class RadixSort extends Sort {
         for (int i = 0; i < array.size(); i++) {
             int val = array.get(i) * heightScale;
 
-            if (i == pointer) {
-                g.setColor(Color.RED);
-            } else if (selected.contains(i)) {
-                g.setColor(Color.GREEN);
-            } else {
-                g.setColor(Color.WHITE);
+            g.setColor(Color.WHITE);
+
+
+            if (buckets != null) {
+                for (int j = 0; j < 4; j++) {
+                    if (buckets.get(j).contains(array.get(i))) {
+                        g.setColor(palette[j]);
+                        break;
+                    }
+                }
             }
 
+            if (i == pointer) {
+                g.setColor(Color.MAGENTA);
+            }
             g.fillRect(i * widthScale, height - val, mul < 0 ? 2 : heightScale, val);
         }
     }

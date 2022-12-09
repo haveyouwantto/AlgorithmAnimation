@@ -21,7 +21,7 @@ public class FFT extends BasicAnimation {
 
     double ratio = width * 1d / height;
 
-    double zoom = 0.01;
+    double zoom = 0.05;
     double speed;
     Mapper mx = new Mapper(-1 / zoom, 1 / zoom, 0, width);
     Mapper my = new Mapper(-1 / zoom / ratio, 1 / zoom / ratio, 0, height);
@@ -124,10 +124,9 @@ public class FFT extends BasicAnimation {
         double cx = 0;
         double cy = 0;
         for (int i = 0; i < fft.length; i++) {
-
             // Vector
             g2.setStroke(line);
-            g.setColor(Color.getHSBColor((float) i / fft.length * 0.75f, 1, 1));
+            g.setColor(Color.getHSBColor((float) Math.cbrt((double) i / fft.length) * 0.75f, 1, 1));
 
             FFTData data = fft[i];
             Vector2D v = Vector2D.fromPolar(data.amp, 2 * Math.PI * tick * data.freq + data.phase);
