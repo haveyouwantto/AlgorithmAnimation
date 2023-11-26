@@ -11,7 +11,7 @@ public class SelectionSort extends Sort {
     long compare = 0;
 
     public SelectionSort() {
-        this(1);
+        this(2);
     }
 
     public SelectionSort(int mul) {

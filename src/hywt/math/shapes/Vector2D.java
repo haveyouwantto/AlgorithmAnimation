@@ -10,10 +10,10 @@ public class Vector2D implements Cloneable {
         this.y = y;
     }
 
-    public static Vector2D fromPolar(double r, double o) {
+    public static Vector2D fromPolar(double radius, double theta) {
         return new Vector2D(
-                r * Math.cos(o),
-                r * Math.sin(o)
+                radius * Math.cos(theta),
+                radius * Math.sin(theta)
         );
     }
 

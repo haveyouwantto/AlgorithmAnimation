@@ -2,36 +2,41 @@ package hywt.algo.animation.sorting;
 
 import java.awt.*;
 
-public class BubbleSort extends Sort {
+public class CombSort extends Sort {
 
     int pointer = 0;
-    int stop = elements - 1;
+    int stop = (int) (elements / 1.3);
+    int pointer2 = pointer + stop + 1;
 
     long compare = 0;
-
     boolean correct = true;
 
-    public BubbleSort() {
-        this(2);
+
+    public CombSort() {
+        this(1);
     }
 
-    public BubbleSort(int mul) {
+    public CombSort(int mul) {
         super(mul);
     }
 
     void step() {
         int current = array.statsGet(pointer);
-        int next = array.statsGet(pointer + 1);
+        int next = array.statsGet(pointer2);
         compare++;
+//        System.out.printf("%d %d \n", current,next);
         if (current > next) {
-            correct = false;
             array.statsSet(pointer, next);
-            array.statsSet(pointer + 1, current);
+            array.statsSet(pointer2, current);
+            correct = false;
         }
-        if (++pointer >= stop) {
+        pointer++;
+        pointer2 = pointer + stop + 1;
+        if (pointer2 >= elements) {
             pointer = 0;
-            --stop;
-            if (stop <= 1 || correct) sorted = true;
+            stop /= 1.3;
+            pointer2 = pointer + stop + 1;
+            if (stop <= 1 && correct) sorted = true;
             correct = true;
         }
     }
@@ -48,7 +53,7 @@ public class BubbleSort extends Sort {
     @Override
     public void drawText(Graphics g) {
         g.setColor(Color.WHITE);
-        String info = String.format("Bubble Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
+        String info = String.format("Comb Sort - get = %d | set = %d | compare = %d", array.getGets(), array.getSets(), compare);
         g.drawChars(info.toCharArray(), 0, info.length(), 2, 10);
     }
 
@@ -59,7 +64,7 @@ public class BubbleSort extends Sort {
             int val = array.get(i) * heightScale;
             if (i == pointer) {
                 g.setColor(Color.RED);
-            } else if (i == pointer + 1) {
+            } else if (i == pointer2) {
                 g.setColor(Color.GREEN);
             } else if (i == stop) {
                 g.setColor(Color.YELLOW);

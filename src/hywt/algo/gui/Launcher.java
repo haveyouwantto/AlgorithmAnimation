@@ -33,7 +33,7 @@ public class Launcher extends JFrame {
         main.add(scrollPane);
         add(main, BorderLayout.CENTER);
 
-        JButton button = new JButton(">");
+        JButton button = new JButton("播放");
         add(button, BorderLayout.SOUTH);
         button.addActionListener(l -> {
             if (!classes.isSelectionEmpty()) {

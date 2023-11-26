@@ -16,7 +16,7 @@ public class DelayQuit implements AnimationGen {
 
     @Override
     public boolean hasNext() {
-        return !(finished && tick - finishTick > 150);
+        return !(finished && tick - finishTick > 60);
     }
 
     @Override

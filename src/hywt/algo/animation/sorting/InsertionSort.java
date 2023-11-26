@@ -11,7 +11,7 @@ public class InsertionSort extends Sort {
     final Object lock = new Object();
 
     public InsertionSort() {
-        this(1);
+        this(2);
     }
 
     public InsertionSort(int mul) {
