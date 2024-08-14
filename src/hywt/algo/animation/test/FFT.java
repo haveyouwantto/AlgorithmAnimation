@@ -16,12 +16,18 @@ import java.util.LinkedList;
 public class FFT extends BasicAnimation {
     double tick = 0;
 
+    // Settings
     int width = 1920;
     int height = 1080;
+    double zoom = 0.25;
+    boolean follow = false;
+    boolean infiniteLoop = false;
+    Stroke line = new BasicStroke(2);
+    Stroke trail = new BasicStroke(1);
+
 
     double ratio = width * 1d / height;
 
-    double zoom = 0.05;
     double speed;
     Mapper mx = new Mapper(-1 / zoom, 1 / zoom, 0, width);
     Mapper my = new Mapper(-1 / zoom / ratio, 1 / zoom / ratio, 0, height);
@@ -32,11 +38,6 @@ public class FFT extends BasicAnimation {
     FFTData[] fft;
 
     Vector2D camera;
-    boolean follow = true;
-    boolean infiniteLoop = false;
-
-    Stroke line = new BasicStroke(2);
-    Stroke trail = new BasicStroke(1);
 
 
     static class FFTData implements Comparable<FFTData> {
@@ -58,13 +59,13 @@ public class FFT extends BasicAnimation {
 
     public FFT() throws IOException {
         super();
-        InputStream is = ClassLoader.getSystemResourceAsStream("fft.fft");
+        InputStream is = ClassLoader.getSystemResourceAsStream("fft/pi.fft");
         fft = new FFTData[is.available() / 24];
         DataInputStream dis = new DataInputStream(is);
         for (int i = 0; i < fft.length; i++) {
             fft[i] = new FFTData(
                     dis.readDouble(),
-                    dis.readDouble(),
+                    dis.readDouble() * fft.length,
                     dis.readDouble()
             );
         }
@@ -82,7 +83,7 @@ public class FFT extends BasicAnimation {
 
         // how many frames per cycle
         // speed = 1.0 / frames
-        speed = 1.0 / 600;
+        speed = 1.0 / (30 * 60);
     }
 
     @Override

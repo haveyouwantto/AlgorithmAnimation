@@ -18,7 +18,7 @@ public class BasicGraph extends BasicAnimation {
     private int mul;
 
     public BasicGraph() throws IOException {
-        this(Graph.loadImage(ClassLoader.getSystemResourceAsStream("graph.png")));
+        this(Graph.loadImage(ClassLoader.getSystemResourceAsStream("graph/graph.png")));
     }
 
     public BasicGraph(Graph graph) {
