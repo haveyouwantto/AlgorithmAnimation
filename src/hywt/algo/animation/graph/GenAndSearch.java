@@ -14,10 +14,11 @@ public class GenAndSearch extends BasicAnimation {
     private AnimationGen animations;
 
     public GenAndSearch() throws IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        this(new RecursiveSplitGenerator(), BFS.class);
+        this(RecursiveSplitGenerator.class, BFS.class);
     }
 
-    public GenAndSearch(BasicGraph gen, Class<? extends BasicGraph> searchClass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public GenAndSearch(Class<? extends BasicGraph> genClass, Class<? extends BasicGraph> searchClass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        BasicGraph gen = genClass.getConstructor().newInstance();
         BasicGraph search = searchClass.getConstructor().newInstance();
         search.setGraph(gen.graph);
         search.setMul(gen.getMul());
