@@ -11,17 +11,16 @@ import hywt.algo.animation.sorting.*;
 import hywt.algo.animation.test.FFT;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Registry {
-    private static Map<String, Set<Class<? extends AnimationGen>>> registry;
+    protected static Map<String, Set<Class<? extends AnimationGen>>> registry;
 
     static {
         registry = new LinkedHashMap<>();
 
         registry.put("sort", new LinkedHashSet<>());
         registry.get("sort").addAll(
-                Stream.of(
+                List.of(
                         BubbleSort.class,
                         SelectionSort.class,
                         QuickSort.class,
@@ -33,36 +32,36 @@ public class Registry {
                         InsertionSort.class,
                         CombSort.class,
                         ShellSort.class
-                ).toList()
+                )
         );
 
         registry.put("generic", new LinkedHashSet<>());
         registry.get("generic").addAll(
-                Stream.of(
+                List.of(
                         Hanoi.class,
                         Sudoku.class,
                         MonetPi.class,
                         FFT.class
-                ).toList()
+                )
         );
 
         registry.put("graph", new LinkedHashSet<>());
         registry.get("graph").addAll(
-                Stream.of(
+                List.of(
                         BFS.class,
                         RecursiveSplitGenerator.class,
                         DFS.class,
                         BestFS.class,
                         LangtonsAnt.class
-                ).toList()
+                )
         );
 
         registry.put("dist",new LinkedHashSet<>());
         registry.get("dist").addAll(
-                Stream.of(
+                List.of(
                         NormalDistribution.class,
                         KMeans.class
-                ).toList()
+                )
         );
 
     }
