@@ -26,8 +26,7 @@ public class ArrayHeap<E extends Comparable<E>> implements Collection<E> {
         if (list.size() > 0) {
             if (list.size() > 1) {
                 E e = list.statsGet(0);
-                if (list.size() > 1)
-                    list.statsSet(0, list.removeLast());
+                list.statsSet(0, list.removeLast());
                 heapify(0);
                 return e;
             } else
