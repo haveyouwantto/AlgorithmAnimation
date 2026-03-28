@@ -30,4 +30,8 @@ public class StatsArrayList<E> extends ArrayList<E> {
         return sets;
     }
 
+    public void resetStats() {
+        gets = 0;
+        sets = 0;
+    }
 }
