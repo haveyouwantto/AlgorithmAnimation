@@ -2,6 +2,7 @@ package hywt.algo;
 
 import hywt.algo.animation.AnimationGen;
 import hywt.algo.animation.DelayQuit;
+import hywt.algo.animation.dp.Knapsack;
 import hywt.algo.animation.scatter.KMeans;
 import hywt.algo.animation.scatter.PointDistanceSearch;
 import hywt.algo.animation.sorting.CombSort;
@@ -16,7 +17,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         
         // Replace with the name of the AnimationGen class you want to use.
-        AnimationGen anim = new DelayQuit(new v2Test());
+        AnimationGen anim = new DelayQuit(new Knapsack());
 
         // Comment this if you don't have an NVIDIA graphics card
         CreateAnimation.create(

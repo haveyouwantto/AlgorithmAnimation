@@ -9,7 +9,7 @@ import java.awt.*;
 public class TextStyle {
     private Font font;
     private Color color;
-    private String alignment; // e.g., "tl", "cm", "br"
+    private String alignment; // e.g., "tl", "mc", "br"
 
     public TextStyle() {
     }
@@ -57,22 +57,25 @@ public class TextStyle {
     }
 
     private String validateAlignment(String alignment) {
-        if (alignment == null) return null;
+        if (alignment == null)
+            return null;
         String lower = alignment.toLowerCase();
         if (lower.length() != 2) {
-            throw new IllegalArgumentException("Alignment must be a 2-character code (e.g. 'tl', 'cm', 'br'), got: " + alignment);
+            throw new IllegalArgumentException(
+                    "Alignment must be a 2-character code (e.g. 'tl', 'cm', 'br'), got: " + alignment);
         }
-        
+
         char v = lower.charAt(0);
         char h = lower.charAt(1);
-        
+
         boolean vValid = (v == 't' || v == 'm' || v == 'b');
         boolean hValid = (h == 'l' || h == 'c' || h == 'r');
-        
+
         if (!vValid || !hValid) {
-            throw new IllegalArgumentException("Invalid alignment code: " + alignment + ". Use [t|m|b] for vertical and [l|c|r] for horizontal.");
+            throw new IllegalArgumentException(
+                    "Invalid alignment code: " + alignment + ". Use [t|m|b] for vertical and [l|c|r] for horizontal.");
         }
-        
+
         return lower;
     }
 

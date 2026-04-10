@@ -42,9 +42,4 @@ public class GraphicsV2Test extends AnimationV2 {
         g.drawBar(50, 250, 40, 150, Color.GREEN, Color.WHITE);
         g.drawArrow(new hywt.math.shapes.Point2D(150, 350), new hywt.math.shapes.Point2D(250, 250), 10, Color.RED);
     }
-
-    @Override
-    public VideoSize getSize() {
-        return new VideoSize(640, 480);
-    }
 }

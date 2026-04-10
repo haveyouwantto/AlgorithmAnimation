@@ -2,7 +2,9 @@ package hywt.algo.animation;
 
 import java.awt.*;
 
+import hywt.algo.datatype.VideoSize;
 import hywt.algo.gui.GraphicsV2;
+import hywt.algo.gui.TextStyle;
 
 /**
  * AnimationV2 is a high-level base class for algorithm animations.
@@ -20,9 +22,13 @@ public abstract class AnimationV2 extends BasicAnimation {
     private volatile boolean finished = false;
     private volatile boolean algorithmFinished = false;
 
+    protected int width = 640;
+    protected int height = 480;
     private int tick = 0;
     private int startDelay = 0;
     private String status = "";
+
+    protected TextStyle defaultTextStyle = TextStyle.create(null, Color.WHITE, "tl");
 
     /**
      * The core algorithm logic.
@@ -40,6 +46,21 @@ public abstract class AnimationV2 extends BasicAnimation {
      */
     public void setStartDelay(int frames) {
         this.startDelay = frames;
+    }
+
+    public void setSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public void setSize(VideoSize size) {
+        this.width = size.width;
+        this.height = size.height;
+    }
+
+    @Override
+    public VideoSize getSize() {
+        return new VideoSize(width, height);
     }
 
     /**
@@ -89,8 +110,7 @@ public abstract class AnimationV2 extends BasicAnimation {
      */
     protected void drawStatus(GraphicsV2 g) {
         if (status != null && !status.isEmpty()) {
-            g.setColor(Color.WHITE);
-            g.drawString(status, 10, 20);
+            g.drawString(status, 10, 20, defaultTextStyle);
         }
     }
 
