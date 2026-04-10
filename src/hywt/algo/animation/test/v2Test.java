@@ -36,7 +36,7 @@ public class v2Test extends AnimationV2 {
     @Override
     protected void onDraw(GraphicsV2 g) {
         g.setColor(Color.RED);
-        g.fillOval(x, y, 20, 20);
+        g.getG2D().fillOval(x, y, 20, 20);
     }
 
     @Override

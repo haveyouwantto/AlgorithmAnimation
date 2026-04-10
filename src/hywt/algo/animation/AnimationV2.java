@@ -7,11 +7,8 @@ import hywt.algo.gui.GraphicsV2;
 import hywt.algo.gui.TextStyle;
 
 /**
- * AnimationV2 is a high-level base class for algorithm animations.
- * It provides a separate thread for the algorithm and synchronizes it with the
- * rendering thread.
- * Use {@link #waitFrame()} to pause the algorithm and wait for a frame to be
- * drawn.
+ * AnimationV2 is a simplified base class for algorithm animations.
+ * Uses a basic handshake to synchronize algorithm and rendering threads.
  */
 public abstract class AnimationV2 extends BasicAnimation {
     private final Object lock = new Object();
@@ -22,6 +19,9 @@ public abstract class AnimationV2 extends BasicAnimation {
     private volatile boolean finished = false;
     private volatile boolean algorithmFinished = false;
 
+    // Minimal state for the handshake
+    private boolean algorithmTurn = false;
+
     protected int width = 640;
     protected int height = 480;
     private int tick = 0;
@@ -30,84 +30,43 @@ public abstract class AnimationV2 extends BasicAnimation {
 
     protected TextStyle defaultTextStyle = TextStyle.create(null, Color.WHITE, "tl");
 
-    /**
-     * The core algorithm logic.
-     * Use {@link #waitFrame()} to pause and allow the UI to render.
-     */
     protected abstract void onAlgorithm() throws InterruptedException;
-
-    /**
-     * Logic for rendering the current state of the algorithm.
-     */
     protected abstract void onDraw(GraphicsV2 g);
 
-    /**
-     * Sets the amount of frames to wait before starting the algorithm.
-     */
-    public void setStartDelay(int frames) {
-        this.startDelay = frames;
-    }
-
-    public void setSize(int width, int height) {
-        this.width = width;
-        this.height = height;
-    }
-
-    public void setSize(VideoSize size) {
-        this.width = size.width;
-        this.height = size.height;
-    }
-
+    public void setStartDelay(int frames) { this.startDelay = frames; }
+    public void setSize(int width, int height) { this.width = width; this.height = height; }
+    public void setSize(VideoSize size) { this.width = size.width; this.height = size.height; }
+    
     @Override
-    public VideoSize getSize() {
-        return new VideoSize(width, height);
-    }
+    public VideoSize getSize() { return new VideoSize(width, height); }
 
-    /**
-     * Updates the status text displayed on the screen.
-     */
     protected void setStatus(String format, Object... args) {
         this.status = String.format(format, args);
     }
 
-    /**
-     * Returns the current status text.
-     */
-    public String getStatus() {
-        return status;
-    }
+    public String getStatus() { return status; }
 
     /**
-     * Pauses the algorithm thread until the UI thread notifies it.
+     * Minimal handshake: Finish turn, notify UI, and wait for next turn.
      */
     protected void waitFrame() throws InterruptedException {
         synchronized (lock) {
-            lock.wait();
+            algorithmTurn = false;
+            lock.notifyAll();
+            while (!algorithmTurn && running && !finished) {
+                lock.wait();
+            }
         }
     }
 
-    /**
-     * Pauses the algorithm for a specific number of frames.
-     */
     protected void waitFrames(int count) throws InterruptedException {
-        for (int i = 0; i < count; i++) {
-            waitFrame();
-        }
+        for (int i = 0; i < count; i++) waitFrame();
     }
 
-    /**
-     * Waits until the specified {@link #startDelay} is reached.
-     * Should be called at the beginning of {@link #onAlgorithm()}.
-     */
     protected void waitStart() throws InterruptedException {
-        while (tick < startDelay) {
-            waitFrame();
-        }
+        while (tick < startDelay) waitFrame();
     }
 
-    /**
-     * Draws the status text at the top-left corner by default.
-     */
     protected void drawStatus(GraphicsV2 g) {
         if (status != null && !status.isEmpty()) {
             g.drawString(status, 10, 20, defaultTextStyle);
@@ -116,9 +75,7 @@ public abstract class AnimationV2 extends BasicAnimation {
 
     @Override
     public void provideFrame(Graphics g) {
-        // Clear background if flip is enabled in BasicAnimation
         super.provideFrame(g);
-
         GraphicsV2 gv2 = new GraphicsV2(g);
 
         if (!started) {
@@ -126,65 +83,56 @@ public abstract class AnimationV2 extends BasicAnimation {
             started = true;
         }
 
-        onDraw(gv2);
-        drawStatus(gv2);
-
-        tick++;
-
-        if (running) {
-            synchronized (lock) {
-                lock.notify();
+        synchronized (lock) {
+            // Give turn to algorithm
+            algorithmTurn = true;
+            lock.notifyAll();
+            
+            // Wait for algorithm to finish its turn (step)
+            try {
+                if (running && !algorithmFinished) {
+                    while (algorithmTurn && running && !algorithmFinished) {
+                        lock.wait(100); // Small timeout to prevent total hang
+                    }
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
+
+        onDraw(gv2);
+        drawStatus(gv2);
+        tick++;
     }
 
     private synchronized void startAlgorithm() {
-        if (algorithmThread != null)
-            return;
-
+        if (algorithmThread != null) return;
         running = true;
         algorithmThread = new Thread(() -> {
             try {
                 onAlgorithm();
             } catch (InterruptedException e) {
-                // Interrupted, algorithm should stop
                 Thread.currentThread().interrupt();
             } finally {
-                running = false;
-                algorithmFinished = true;
+                synchronized (lock) {
+                    running = false;
+                    algorithmFinished = true;
+                    algorithmTurn = false;
+                    lock.notifyAll();
+                }
             }
         }, "AlgorithmThread-" + getClass().getSimpleName());
         algorithmThread.start();
     }
 
-    /**
-     * Informative method to signal that the animation is complete.
-     */
     public void finish() {
-        finished = true;
+        synchronized (lock) {
+            finished = true;
+            algorithmTurn = true; // Release any waiting algorithm thread
+            lock.notifyAll();
+        }
     }
 
     @Override
-    public boolean hasNext() {
-        return !finished;
-    }
-
-    public boolean isAlgorithmRunning() {
-        return running;
-    }
-
-    public boolean isAlgorithmFinished() {
-        return algorithmFinished;
-    }
-
-    public int getFrameCount() {
-        return tick;
-    }
-
-    /**
-     * Proxy for Thread.sleep, for non-synchronized delays.
-     */
-    protected void sleep(long ms) throws InterruptedException {
-        Thread.sleep(ms);
-    }
+    public boolean hasNext() { return !finished; }
 }
