@@ -18,41 +18,42 @@ public class Knapsack extends AnimationV2 {
     TextStyle gridStyle = TextStyle.create(null, Color.WHITE, "mc");
     TextStyle labelStyle = TextStyle.create(null, Color.YELLOW, "mc");
     TextStyle processStyle = TextStyle.create(new Font("SansSerif", Font.BOLD, 24), Color.CYAN, "tc");
+    TextStyle conclusionStyle = TextStyle.create(new Font("SansSerif", Font.BOLD, 24), Color.CYAN, "tl");
 
     int currentGridX = -1;
     int currentGridY = -1;
 
     int lookbehindGridX = -1;
     int lookbehindGridY = -1;
-
-    volatile String processLine1 = "";
-    volatile String processLine2 = "";
-    volatile String processLine3 = "";
+    boolean drawPrev = false;
 
     Color currColor = new Color(64, 0, 0);
     Color prevColor = new Color(0, 32, 64);
     Color takeColor = new Color(64, 64, 0);
-    Color backRegion = new Color(32, 32, 32);
+    Color currBar = new Color(0, 64, 128);
+    Color takeBar = new Color(128, 128, 0);
+
+    String conclusion;
 
     public Knapsack() {
         int n = 15;
-        int capacity = 20;
+        int capacity = 30;
         int[] w = new int[n];
         int[] v = new int[n];
         for (int i = 0; i < n; i++) {
-            w[i] = (int) (Math.random() * 10) + 1;
-            v[i] = (int) (Math.random() * 10) + 1;
+            w[i] = (int) (Math.random() * 24) + 1;
+            v[i] = (int) (Math.random() * 24) + 1;
         }
         init(w, v, capacity);
-        setSize(854, 480);
     }
 
     public Knapsack(int[] w, int[] v, int capacity) {
         init(w, v, capacity);
-        setSize(640, 480);
     }
 
     private void init(int[] w, int[] v, int capacity) {
+        setSize(854, 480);
+        setStatus("背包问题");
         this.w = w;
         this.v = v;
         this.n = w.length;
@@ -73,41 +74,37 @@ public class Knapsack extends AnimationV2 {
                 currentGridY = i;
                 lookbehindGridX = -1;
                 lookbehindGridY = -1;
+                setStatus("背包问题 | \n当前坐标:(%d,%d)", i, j);
+                conclusion = null;
+                drawPrev = false;
+                waitFrame();
 
                 if (j < w[i - 1]) {
-                    // 帧1: 容量不够，只能不拿
+                    // 1. 容量不够，只能不拿
                     int noTake = dp[i - 1][j];
-                    processLine1 = String.format("dp[%d][%d]: 容量%d < 重量%d，不拿", i, j, j, w[i - 1]);
-                    processLine2 = String.format("不拿 = dp[%d][%d] = %d", i - 1, j, noTake);
-                    processLine3 = "";
                     waitFrame();
 
-                    // 帧2: 写入结果
+                    // 2. 写入结果
+                    conclusion = "没空间拿";
+                    waitFrame();
                     dp[i][j] = noTake;
-                    processLine3 = String.format("dp[%d][%d] = %d", i, j, noTake);
                     waitFrame();
                 } else {
-                    // 帧1: 显示不拿的值
+                    // 1. 显示不拿的值
                     int noTake = dp[i - 1][j];
-                    processLine1 = String.format("dp[%d][%d]: 不拿 = dp[%d][%d] = %d", i, j, i - 1, j, noTake);
-                    processLine2 = "";
-                    processLine3 = "";
+                    drawPrev = true;
                     waitFrame();
 
-                    // 帧2: 显示拿的值（往前找）
+                    // 2. 显示拿的值（往前找）
                     lookbehindGridX = j - w[i - 1];
                     lookbehindGridY = i - 1;
                     int take = dp[i - 1][j - w[i - 1]] + v[i - 1];
-                    processLine2 = String.format("拿 = dp[%d][%d] + v%d = %d + %d = %d",
-                            i - 1, j - w[i - 1], i, dp[i - 1][j - w[i - 1]], v[i - 1], take);
                     waitFrame();
 
-                    // 帧3: 比较结果，显示大于或小于号
+                    // 3. 比较结果，显示大于或小于号
+                    conclusion = noTake > take ? "不拿" : "拿";
+                    waitFrame();
                     dp[i][j] = Math.max(noTake, take);
-                    String cmp = noTake > take ? ">" : noTake < take ? "<" : "=";
-                    String winner = noTake >= take ? "不拿" : "拿";
-                    processLine3 = String.format("%d %s %d → %s, dp[%d][%d] = %d",
-                            noTake, cmp, take, winner, i, j, dp[i][j]);
                     waitFrame();
                 }
             }
@@ -118,9 +115,6 @@ public class Knapsack extends AnimationV2 {
         currentGridY = -1;
         lookbehindGridX = -1;
         lookbehindGridY = -1;
-        processLine1 = "";
-        processLine2 = "";
-        processLine3 = String.format("完成! 最大价值 = %d", dp[n][capacity]);
         setStatus("完成! 最大价值 = %d", dp[n][capacity]);
         waitFrames(120);
         finish();
@@ -128,16 +122,20 @@ public class Knapsack extends AnimationV2 {
 
     @Override
     protected void onDraw(GraphicsV2 g) {
-        int cellWidth = 32;
+        int cellWidth = 24;
         int cellHeight = 16;
-        int startX = 100;
+        int startX = 60;
         int startY = 60;
+
+        if (currentGridY > 0 && drawPrev) {
+            // "不拿" 的来源：dp[i-1][j]
+            g.setColor(prevColor);
+            g.fillRect(startX + cellWidth * currentGridX, startY + cellHeight * (currentGridY - 1), cellWidth,
+                    cellHeight);
+        }
 
         // Draw the lookbehind region highlight (behind the grid)
         if (lookbehindGridX >= 0 && lookbehindGridY >= 0) {
-            // "不拿" 的来源：dp[i-1][j]
-            g.setColor(prevColor);
-            g.fillRect(startX + cellWidth * currentGridX, startY + cellHeight * lookbehindGridY, cellWidth, cellHeight);
             // "拿" 的来源：dp[i-1][j-w[i]]
             g.setColor(takeColor);
             g.fillRect(startX + cellWidth * lookbehindGridX, startY + cellHeight * lookbehindGridY, cellWidth,
@@ -167,16 +165,42 @@ public class Knapsack extends AnimationV2 {
                     labelStyle);
         }
 
-        // Draw process explanation (large font, at bottom)
-        int processY = startY + cellHeight * (n + 2) + 20;
-        if (!processLine1.isEmpty()) {
-            g.drawString(processLine1, width / 2, processY, processStyle);
-        }
-        if (!processLine2.isEmpty()) {
-            g.drawString(processLine2, width / 2, processY + 32, processStyle);
-        }
-        if (!processLine3.isEmpty()) {
-            g.drawString(processLine3, width / 2, processY + 64, processStyle);
+        // Draw process visualization
+        int processY = startY + cellHeight * (n + 2) + 100;
+        if (currentGridY > 0) {
+            int v1 = dp[currentGridY - 1][currentGridX];
+            int v2 = currentGridX >= w[currentGridY - 1]
+                    ? dp[currentGridY - 1][currentGridX - w[currentGridY - 1]] + v[currentGridY - 1]
+                    : 0;
+            int avg = (v1 + v2) / 2;
+
+            int height1 = Math.clamp(50 + (v1 - avg) * 3, 5, 100);
+            int height2 = Math.clamp(50 + (v2 - avg) * 3, 5, 100);
+
+            if (currentGridX >= 0 && drawPrev) {
+                g.drawBar(startX + 200, processY - height1, 80, height1, currBar, null);
+                g.drawString(String.valueOf(v1), startX + 240, processY, processStyle);
+            }
+
+            if (lookbehindGridX >= 0 && lookbehindGridY >= 0) {
+                g.drawBar(startX + 300, processY - height2, 80, height2, takeBar, null);
+                g.drawString(String.valueOf(v2), startX + 340, processY, processStyle);
+            }
+
+            if (conclusion != null) {
+                g.drawString("结论：" + conclusion, startX + 400, processY, conclusionStyle);
+
+                String comparison;
+                if (conclusion.equals("拿")) {
+                    comparison = "<=";
+                } else if (conclusion.equals("不拿")) {
+                    comparison = ">=";
+                } else {
+                    comparison = String.format("%d > %d",
+                            w[currentGridY - 1], currentGridX);
+                }
+                g.drawString(comparison, startX + 280, processY, conclusionStyle);
+            }
         }
     }
 }

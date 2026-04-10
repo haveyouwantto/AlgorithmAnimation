@@ -31,20 +31,35 @@ public abstract class AnimationV2 extends BasicAnimation {
     protected TextStyle defaultTextStyle = TextStyle.create(null, Color.WHITE, "tl");
 
     protected abstract void onAlgorithm() throws InterruptedException;
+
     protected abstract void onDraw(GraphicsV2 g);
 
-    public void setStartDelay(int frames) { this.startDelay = frames; }
-    public void setSize(int width, int height) { this.width = width; this.height = height; }
-    public void setSize(VideoSize size) { this.width = size.width; this.height = size.height; }
-    
+    public void setStartDelay(int frames) {
+        this.startDelay = frames;
+    }
+
+    public void setSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public void setSize(VideoSize size) {
+        this.width = size.width;
+        this.height = size.height;
+    }
+
     @Override
-    public VideoSize getSize() { return new VideoSize(width, height); }
+    public VideoSize getSize() {
+        return new VideoSize(width, height);
+    }
 
     protected void setStatus(String format, Object... args) {
         this.status = String.format(format, args);
     }
 
-    public String getStatus() { return status; }
+    public String getStatus() {
+        return status;
+    }
 
     /**
      * Minimal handshake: Finish turn, notify UI, and wait for next turn.
@@ -60,16 +75,18 @@ public abstract class AnimationV2 extends BasicAnimation {
     }
 
     protected void waitFrames(int count) throws InterruptedException {
-        for (int i = 0; i < count; i++) waitFrame();
+        for (int i = 0; i < count; i++)
+            waitFrame();
     }
 
     protected void waitStart() throws InterruptedException {
-        while (tick < startDelay) waitFrame();
+        while (tick < startDelay)
+            waitFrame();
     }
 
     protected void drawStatus(GraphicsV2 g) {
         if (status != null && !status.isEmpty()) {
-            g.drawString(status, 10, 20, defaultTextStyle);
+            g.drawString(status, 10, 6, defaultTextStyle);
         }
     }
 
@@ -87,7 +104,7 @@ public abstract class AnimationV2 extends BasicAnimation {
             // Give turn to algorithm
             algorithmTurn = true;
             lock.notifyAll();
-            
+
             // Wait for algorithm to finish its turn (step)
             try {
                 if (running && !algorithmFinished) {
@@ -106,7 +123,8 @@ public abstract class AnimationV2 extends BasicAnimation {
     }
 
     private synchronized void startAlgorithm() {
-        if (algorithmThread != null) return;
+        if (algorithmThread != null)
+            return;
         running = true;
         algorithmThread = new Thread(() -> {
             try {
@@ -134,5 +152,7 @@ public abstract class AnimationV2 extends BasicAnimation {
     }
 
     @Override
-    public boolean hasNext() { return !finished; }
+    public boolean hasNext() {
+        return !finished;
+    }
 }
