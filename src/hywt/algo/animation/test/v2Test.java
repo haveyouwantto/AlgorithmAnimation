@@ -2,6 +2,7 @@ package hywt.algo.animation.test;
 
 import hywt.algo.animation.AnimationV2;
 import hywt.algo.datatype.VideoSize;
+import hywt.algo.gui.GraphicsV2;
 
 import java.awt.*;
 
@@ -17,23 +18,23 @@ public class v2Test extends AnimationV2 {
     protected void onAlgorithm() throws InterruptedException {
         setStatus("Waiting for start...");
         waitStart();
-        
+
         setStatus("Algorithm started!");
         for (int i = 0; i < 400; i++) {
             x++;
             setStatus("Moving: x = %d", x);
             waitFrame();
         }
-        
+
         setStatus("Waiting at the end...");
         waitFrames(60);
-        
+
         setStatus("Finished!");
         finish();
     }
 
     @Override
-    protected void onDraw(Graphics g) {
+    protected void onDraw(GraphicsV2 g) {
         g.setColor(Color.RED);
         g.fillOval(x, y, 20, 20);
     }

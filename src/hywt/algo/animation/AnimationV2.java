@@ -2,15 +2,19 @@ package hywt.algo.animation;
 
 import java.awt.*;
 
+import hywt.algo.gui.GraphicsV2;
+
 /**
  * AnimationV2 is a high-level base class for algorithm animations.
- * It provides a separate thread for the algorithm and synchronizes it with the rendering thread.
- * Use {@link #waitFrame()} to pause the algorithm and wait for a frame to be drawn.
+ * It provides a separate thread for the algorithm and synchronizes it with the
+ * rendering thread.
+ * Use {@link #waitFrame()} to pause the algorithm and wait for a frame to be
+ * drawn.
  */
 public abstract class AnimationV2 extends BasicAnimation {
     private final Object lock = new Object();
     private Thread algorithmThread;
-    
+
     private volatile boolean started = false;
     private volatile boolean running = false;
     private volatile boolean finished = false;
@@ -29,7 +33,7 @@ public abstract class AnimationV2 extends BasicAnimation {
     /**
      * Logic for rendering the current state of the algorithm.
      */
-    protected abstract void onDraw(Graphics g);
+    protected abstract void onDraw(GraphicsV2 g);
 
     /**
      * Sets the amount of frames to wait before starting the algorithm.
@@ -83,7 +87,7 @@ public abstract class AnimationV2 extends BasicAnimation {
     /**
      * Draws the status text at the top-left corner by default.
      */
-    protected void drawStatus(Graphics g) {
+    protected void drawStatus(GraphicsV2 g) {
         if (status != null && !status.isEmpty()) {
             g.setColor(Color.WHITE);
             g.drawString(status, 10, 20);
@@ -95,13 +99,15 @@ public abstract class AnimationV2 extends BasicAnimation {
         // Clear background if flip is enabled in BasicAnimation
         super.provideFrame(g);
 
+        GraphicsV2 gv2 = new GraphicsV2(g);
+
         if (!started) {
             startAlgorithm();
             started = true;
         }
 
-        onDraw(g);
-        drawStatus(g);
+        onDraw(gv2);
+        drawStatus(gv2);
 
         tick++;
 
@@ -113,8 +119,9 @@ public abstract class AnimationV2 extends BasicAnimation {
     }
 
     private synchronized void startAlgorithm() {
-        if (algorithmThread != null) return;
-        
+        if (algorithmThread != null)
+            return;
+
         running = true;
         algorithmThread = new Thread(() -> {
             try {

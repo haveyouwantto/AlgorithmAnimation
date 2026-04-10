@@ -6,6 +6,7 @@ import hywt.algo.animation.scatter.KMeans;
 import hywt.algo.animation.scatter.PointDistanceSearch;
 import hywt.algo.animation.sorting.CombSort;
 import hywt.algo.animation.sorting.ShellSort;
+import hywt.algo.animation.test.v2Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,13 +16,13 @@ public class Main {
     public static void main(String[] args) throws IOException {
         
         // Replace with the name of the AnimationGen class you want to use.
-        AnimationGen anim = new DelayQuit(new PointDistanceSearch());
+        AnimationGen anim = new DelayQuit(new v2Test());
 
         // Comment this if you don't have an NVIDIA graphics card
         CreateAnimation.create(
                 "-c:v hevc_nvenc -qp 16 -pix_fmt yuv420p -sws_flags neighbor -vf scale=-2:2160",
                 new DelayQuit(anim),
-                new File("videos/pointsearch.mkv")
+                new File("videos/test.mkv")
         );
         //        CreateAnimation.nvenc(
         //                anim,
